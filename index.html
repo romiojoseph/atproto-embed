@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AT Proto Embed</title>
+  <meta name="description"
+    content="Paste a Bluesky post link or any link from a client that follows the same URL pattern.">
+  <meta property="og:image" content="assets/social-image.png">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap">
+
+  <link rel="stylesheet" href="demo.css">
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="hero-content">
+      <h1 class="page-heading">AT Proto Embed</h1>
+      <p class="page-subtitle">Add Bluesky post embeds or a comment section to your blog or website with a single script
+        tag. Works with any AT Protocol client that follows the standard URL pattern.</p>
+      <aside class="page-note">Public posts are accessible to everyone
+        regardless of which client you use or your login status.</aside>
+      <div class="hero-btns">
+        <button class="hero-btn btn-github"
+          onclick="window.open('https://github.com/romiojoseph/atproto-embed', '_blank', 'noopener')">
+          <img src="public/github.svg" alt="GitHub">
+        </button>
+
+        <button class="hero-btn btn-jsdelivr"
+          onclick="window.open('https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed', '_blank', 'noopener')">
+          <img src="public/jsdelivr.svg" alt="jsDelivr">
+        </button>
+      </div>
+
+      <ul class="feature-list">
+        <li><span class="check"></span>No login or installation needed</li>
+        <li><span class="check"></span>No trackers or analytics</li>
+        <li><span class="check"></span>No content visibility issues</li>
+      </ul>
+      <aside class="feature-aside">It's open source and entirely vibe coded.</aside>
+
+      <aside class="code-snippet">
+        <div class="window">
+          <div class="titlebar">
+            <div class="dots">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="tabs">
+              <div class="tab active" onclick="switchTab(0)">Script</div>
+              <div class="tab" onclick="switchTab(1)">jsDelivr</div>
+              <div class="tab" onclick="switchTab(2)">GitHub</div>
+            </div>
+          </div>
+          <div class="body">
+            <div class="panel active" id="panel-0">
+              <p class="code-note"># Add this script to the page, then use the generated snippet where you want the
+                embed.</p>
+              <div class="hero-code-wrapper">
+                <code id="hero-script-code"
+                  class="code-text"><span class="hl-tag">&lt;script</span> <span class="hl-attr">src</span>=<span class="hl-string">"https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"</span><span class="hl-tag">&gt;&lt;/script&gt;</span></code>
+              </div>
+              <div class="hero-code-footer">
+                <button class="hero-copy-btn" onclick="copyHeroScript()" aria-label="Copy script" title="Copy script">
+                  <svg id="hero-copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                  </svg>
+                  <span>Copy Script</span>
+                </button>
+              </div>
+            </div>
+            <div class="panel" id="panel-1">
+              <div class="link-panel">
+                <div class="link-item">
+                  <p class="code-note"># CDN link</p>
+                  <a class="link-url code-text"
+                    href="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js" target="_blank"
+                    rel="noopener"><span
+                      class="hl-string">"https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"</span></a>
+                </div>
+                <div class="link-item">
+                  <p class="code-note"># Package page</p>
+                  <a class="link-url code-text" href="https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed"
+                    target="_blank" rel="noopener"><span
+                      class="hl-string">"https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed"</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="panel" id="panel-2">
+              <div class="link-panel">
+                <div class="link-item">
+                  <p class="code-note"># Repository</p>
+                  <a class="link-url code-text" href="https://github.com/romiojoseph/atproto-embed" target="_blank"
+                    rel="noopener"><span class="hl-string">"https://github.com/romiojoseph/atproto-embed"</span></a>
+                </div>
+                <div class="link-item">
+                  <p class="code-note"># src/embed.js</p>
+                  <a class="link-url code-text"
+                    href="https://github.com/romiojoseph/atproto-embed/blob/main/src/embed.js" target="_blank"
+                    rel="noopener"><span
+                      class="hl-string">"https://github.com/romiojoseph/atproto-embed/blob/main/src/embed.js"</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="controls">
+      <select id="selector" title="Post selector for demo">
+        <option value="">— Pick a test post —</option>
+        <optgroup label="Text only posts">
+          <option value="https://bsky.app/profile/atproto.com/post/3mg6cliy3lc26">Bluesky URL</option>
+        </optgroup>
+        <optgroup label="Quote post">
+          <option value="https://bsky.app/profile/iohn.bsky.social/post/3mhgpxlcujs2e">Large</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mgnknuoxp225">Compact</option>
+        </optgroup>
+        <optgroup label="Media">
+          <option value="https://bsky.app/profile/danabra.mov/post/3m324y3slms2n">One Image</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mazty7lcoc27">Two Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lifogne32c25">Three Images</option>
+          <option value="https://bsky.app/profile/pfrazee.com/post/3ktihwn6xye2t">Four Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3l3vgf77uco2g">Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lydt7uwac22f">Horizontal Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mehbtjykb22n">Vertical Video</option>
+          <option value="https://bsky.app/profile/wired.com/post/3mgbf377x442u">Trusted Verifier</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mhgprzgahs2l">External Link</option>
+        </optgroup>
+        <optgroup label="Other Clients">
+          <option value="at://did:plc:ragtjsm2j2vknwkz3zp4oxrd/app.bsky.feed.post/3mhloar4dys2c">
+            AT URI</option>
+          <option value="https://deer.social/profile/did:plc:246lpwo6dt5rdx45fs5v2acv/post/3mhnns3f4b227">Deer Social
+          </option>
+          <option value="https://witchsky.app/profile/did:plc:cwf4mmm7mpzistinx3ox2zhj/post/3mhgpuukaxs2u">Witchsky
+          </option>
+          <option value="https://blacksky.community/profile/did:plc:kta7dqcqoamo5ixlajxbtjps/post/3mgz73rfh5s2q">
+            Blacksky
+          </option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="https://bsky.app/profile/bsky.app/post/3mg3ybdpo7s2b">bsky.app</option>
+          <option value="https://bsky.app/profile/atproto.com/post/3mhjb5565us2t">atproto.com</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mhgqgymbds23">jay.bsky.team</option>
+        </optgroup>
+      </select>
+      <button class="load-btn" onclick="loadFromDropdown()">Load</button>
+    </div>
+
+    <div class="manual">
+      <input type="text" id="custom-uri" placeholder="Paste any AT URI or Bluesky URL…">
+      <button class="load-btn" onclick="loadCustom()">Load</button>
+    </div>
+
+    <div class="options-panel">
+      <div class="options-grid">
+        <label><input type="checkbox" data-attr="show-likes" checked> Likes</label>
+        <label><input type="checkbox" data-attr="show-reposts" checked> Reposts</label>
+        <label><input type="checkbox" data-attr="show-replies" checked> Replies</label>
+        <label><input type="checkbox" data-attr="show-quotes" checked> Quotes</label>
+        <label><input type="checkbox" data-attr="show-bookmarks" checked> Bookmarks</label>
+        <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+        <label><input type="checkbox" data-attr="show-timestamp" checked> Timestamp</label>
+        <label><input type="checkbox" data-attr="show-actions" checked> Actions</label>
+        <label><input type="checkbox" data-attr="show-reply-context" checked> Reply context</label>
+        <label><input type="checkbox" data-attr="show-embeds" checked> Embeds</label>
+        <label><input type="checkbox" data-attr="show-images" checked> Images</label>
+        <label><input type="checkbox" data-attr="show-video" checked> Video</label>
+        <label><input type="checkbox" data-attr="show-external" checked> External</label>
+        <label><input type="checkbox" data-attr="external-layout"> Horizontal</label>
+        <label><input type="checkbox" data-attr="show-quote-posts" checked> Quote posts</label>
+        <label><input type="checkbox" data-attr="show-badges" checked> Badges</label>
+        <label><input type="checkbox" data-attr="show-labels" checked> Labels</label>
+        <label><input type="checkbox" data-attr="show-reply-quote-labels" checked> Quote labels</label>
+        <label><input type="checkbox" data-attr="show-main-post" checked> Main post</label>
+        <label><input type="checkbox" data-attr="show-liked-by" checked> Liked by</label>
+        <label><input type="checkbox" data-attr="show-replies-tab" checked> Replies tab</label>
+        <label><input type="checkbox" data-attr="show-quotes-tab" checked> Quotes tab</label>
+        <label><input type="checkbox" data-attr="show-tabs" checked> Tabs</label>
+        <label><input type="checkbox" data-attr="show-sort" checked> Sort</label>
+        <label><input type="checkbox" data-attr="show-join-button" checked> Write reply</label>
+      </div>
+    </div>
+
+    <h2 class="section-title">Post Embed</h2>
+    <P class="section-subtitle">Embed Bluesky posts on your blog or website.</P>
+    <div class="embed-wrap">
+      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
+        data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
+        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
+        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
+        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"
+        data-show-reply-quote-labels="true" data-show-main-post="true" data-show-liked-by="true"
+        data-show-replies-tab="true" data-show-quotes-tab="true" data-show-tabs="true" data-show-sort="true"
+        data-show-join-button="true"></div>
+
+      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-code">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        Get Code
+      </button>
+    </div>
+
+    <h2 class="section-title">Discussion Embed</h2>
+    <P class="section-subtitle">Turn a Bluesky post into a comment section.</P>
+    <div class="embed-wrap">
+      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
+        data-mode="discussion" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
+        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
+        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
+        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"
+        data-show-reply-quote-labels="false" data-show-main-post="true" data-show-liked-by="true"
+        data-show-replies-tab="true" data-show-quotes-tab="true" data-show-tabs="true" data-show-sort="true"
+        data-show-join-button="true" data-replies-sort="oldest"></div>
+
+      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-code">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        Get Code
+      </button>
+    </div>
+  </div>
+
+  <div id="code-popover" class="popover-overlay" onclick="if(event.target === this) closePopover()">
+    <div class="popover-content">
+      <div class="popover-header">
+        <div>
+          <h3>Get Code</h3>
+          <p>Tweak controls to see the change.</p>
+        </div>
+        <button class="popover-close" onclick="closePopover()" title="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="popover-body">
+        <div class="popover-code-wrap">
+          <pre><code id="popover-code" class="language-html"></code></pre>
+        </div>
+        <div class="popover-footer">
+          <button class="popover-copy-btn" onclick="copyPopoverCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+            </svg>
+            Copy Snippet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p class="footer-text">This project exists because I needed it. I was trying to embed a Bluesky post on my blog, but
+      the official script wouldn't load it because I had "Logged-out visibility" enabled (Which means Bluesky will
+      honor this request, so it won't load it for logged out users). Fair feature, wrong tradeoff for me.</p>
+    <p class="footer-text">I looked at other solutions, but wanted something of my own. So I vibe coded it.</p>
+    <p class="footer-text">I had built <a href="https://romiojoseph.github.io/blog/post/bluesky-comments-widget/"
+        target="_blank" rel="noopener" title="A link to Bluesky Comments Widget: Add replies to your site
+"> a comment widget</a> a while back, but revisiting it now, it felt unfinished. I had
+      learned enough to do it somewhat good this time. And I wanted to leave that project untouched because I noticed
+      that some people are using it.</p>
+    <p class="footer-text">The current project - AT Proto Embed - is not just a comment widget. It can embed any post
+      from any client that follows the same Bluesky post link pattern
+      (at://did:plc:abc1def2ghi3jkl/app.bsky.feed.post/rkey). The goal was simple, give
+      full control over what shows and what doesn't. Browsers without native HLS support (like Firefox) automatically
+      load hls.js on demand. No
+      extra setup required.</p>
+    <p class="footer-text">Use it via CDN or grab the JS and CSS.
+    </p>
+    <div>
+      <img alt="GitHub License" src="https://img.shields.io/github/license/romiojoseph/atproto-embed">
+      <img alt="GitHub file size in bytes"
+        src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fembed.js">
+      <img alt="jsDelivr hits (GitHub)" src="https://img.shields.io/jsdelivr/gh/hm/romiojoseph/atproto-embed">
+      <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/romiojoseph/atproto-embed">
+      <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/romiojoseph/atproto-embed">
+    </div>
+  </footer>
+
+  <script src="demo.js"></script>
+
+  <script src="src/embed.js" data-preload-icons="true"></script>
+</body>
+
+</html>
