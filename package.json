@@ -1,6 +1,6 @@
 {
     "name": "atproto-embed",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Add Bluesky post embeds or a comment section to your blog or website with a single script tag. Works with any AT Protocol client that follows the standard URL pattern.",
     "main": "dist/embed.js",
     "scripts": {
