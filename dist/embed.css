@@ -603,10 +603,10 @@ button {
   gap: 12px;
 }
 
-.atproto-embed--post .atproto-post__metrics-row {
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-  border-bottom: 1px dashed var(--neutral-3);
+.atproto-embed--post .atproto-post__info-row {
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px dashed var(--neutral-3);
 }
 
 .atproto-embed--post .atproto-post__metrics-left,

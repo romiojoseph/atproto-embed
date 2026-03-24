@@ -1,5 +1,7 @@
 A near-zero-dependency (just HLS.js for browsers that don't support HLS natively), vanilla JS/CSS web component to embed Bluesky / AT Protocol posts and discussions (threads) directly into your website or blog.
 
+Disclaimer: Entirely vibe coded.
+
 ## Features
 
 - **Near-zero dependencies**: No React, no heavy frameworks. Just plain JS and CSS.
