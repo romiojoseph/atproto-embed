@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="demo.css">
 </head>
 
-<body>
+<body data-active-tab="post">
 
   <header class="hero">
     <div class="hero-content">
@@ -123,7 +123,14 @@
   </header>
 
   <div class="page">
-    <div class="controls">
+    <div class="demo-tabs">
+      <label><input type="radio" name="demo-tab" value="post" checked>Post</label>
+      <label><input type="radio" name="demo-tab" value="discussion">Discussion</label>
+      <label><input type="radio" name="demo-tab" value="profile">Profile</label>
+      <label><input type="radio" name="demo-tab" value="members">Members</label>
+    </div>
+
+    <div class="controls" data-tab-section="post">
       <select id="selector" title="Post selector for demo">
         <option value="">— Pick a test post —</option>
         <optgroup label="Text only posts">
@@ -164,13 +171,114 @@
       <button class="load-btn" onclick="loadFromDropdown()">Load</button>
     </div>
 
-    <div class="manual">
+    <div class="manual" data-tab-section="post">
       <input type="text" id="custom-uri" placeholder="Paste any AT URI or Bluesky URL…">
       <button class="load-btn" onclick="loadCustom()">Load</button>
     </div>
 
-    <div class="options-panel">
-      <div class="options-grid">
+    <div class="options-panel" data-tab-section="post">
+      <div class="options-grid post-options">
+        <label><input type="checkbox" data-attr="show-likes" checked> Likes</label>
+        <label><input type="checkbox" data-attr="show-reposts" checked> Reposts</label>
+        <label><input type="checkbox" data-attr="show-replies" checked> Replies</label>
+        <label><input type="checkbox" data-attr="show-quotes" checked> Quotes</label>
+        <label><input type="checkbox" data-attr="show-bookmarks" checked> Bookmarks</label>
+        <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+        <label><input type="checkbox" data-attr="show-timestamp" checked> Timestamp</label>
+        <label><input type="checkbox" data-attr="show-actions" checked> Actions</label>
+        <label><input type="checkbox" data-attr="show-reply-context" checked> Reply context</label>
+        <label><input type="checkbox" data-attr="show-embeds" checked> Embeds</label>
+        <label><input type="checkbox" data-attr="show-images" checked> Images</label>
+        <label><input type="checkbox" data-attr="show-video" checked> Video</label>
+        <label><input type="checkbox" data-attr="show-external" checked> External</label>
+        <label><input type="checkbox" data-attr="external-layout"> Horizontal</label>
+        <label><input type="checkbox" data-attr="show-quote-posts" checked> Quote posts</label>
+        <label><input type="checkbox" data-attr="show-badges" checked> Badges</label>
+        <label><input type="checkbox" data-attr="show-labels" checked> Labels</label>
+        <label><input type="checkbox" data-attr="show-reply-quote-labels" checked> Quote labels</label>
+      </div>
+      <div class="slider-controls">
+        <label>Width
+          <input type="range" data-attr="width" data-unit="%" min="20" max="100" step="1" value="100">
+          <span class="range-value">100%</span>
+        </label>
+        <label>Max width
+          <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+          <span class="range-value">728px</span>
+        </label>
+      </div>
+    </div>
+
+    <h2 class="section-title" data-tab-section="post">Post Embed</h2>
+    <P class="section-subtitle" data-tab-section="post">Embed Bluesky posts on your blog or website.</P>
+    <div class="embed-wrap" data-tab-section="post">
+      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
+        data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
+        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
+        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
+        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"
+        data-show-reply-quote-labels="true"></div>
+
+      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-code">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        Get Code
+      </button>
+    </div>
+
+    <div class="controls" data-tab-section="discussion">
+      <select id="discussion-selector" title="Post selector for demo">
+        <option value="">— Pick a test post —</option>
+        <optgroup label="Text only posts">
+          <option value="https://bsky.app/profile/atproto.com/post/3mg6cliy3lc26">Bluesky URL</option>
+        </optgroup>
+        <optgroup label="Quote post">
+          <option value="https://bsky.app/profile/iohn.bsky.social/post/3mhgpxlcujs2e">Large</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mgnknuoxp225">Compact</option>
+        </optgroup>
+        <optgroup label="Media">
+          <option value="https://bsky.app/profile/danabra.mov/post/3m324y3slms2n">One Image</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mazty7lcoc27">Two Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lifogne32c25">Three Images</option>
+          <option value="https://bsky.app/profile/pfrazee.com/post/3ktihwn6xye2t">Four Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3l3vgf77uco2g">Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lydt7uwac22f">Horizontal Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mehbtjykb22n">Vertical Video</option>
+          <option value="https://bsky.app/profile/wired.com/post/3mgbf377x442u">Trusted Verifier</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mhgprzgahs2l">External Link</option>
+        </optgroup>
+        <optgroup label="Other Clients">
+          <option value="at://did:plc:ragtjsm2j2vknwkz3zp4oxrd/app.bsky.feed.post/3mhloar4dys2c">
+            AT URI</option>
+          <option value="https://deer.social/profile/did:plc:246lpwo6dt5rdx45fs5v2acv/post/3mhnns3f4b227">Deer Social
+          </option>
+          <option value="https://witchsky.app/profile/did:plc:cwf4mmm7mpzistinx3ox2zhj/post/3mhgpuukaxs2u">Witchsky
+          </option>
+          <option value="https://blacksky.community/profile/did:plc:kta7dqcqoamo5ixlajxbtjps/post/3mgz73rfh5s2q">
+            Blacksky
+          </option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="https://bsky.app/profile/bsky.app/post/3mg3ybdpo7s2b">bsky.app</option>
+          <option value="https://bsky.app/profile/atproto.com/post/3mhjb5565us2t">atproto.com</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mhgqgymbds23">jay.bsky.team</option>
+        </optgroup>
+      </select>
+      <button class="load-btn" onclick="loadDiscussionFromDropdown()">Load</button>
+    </div>
+
+    <div class="manual" data-tab-section="discussion">
+      <input type="text" id="discussion-custom-uri" placeholder="Paste any AT URI or Bluesky URL…">
+      <button class="load-btn" onclick="loadDiscussionCustom()">Load</button>
+    </div>
+
+    <div class="options-panel" data-tab-section="discussion">
+      <div class="options-grid discussion-options">
         <label><input type="checkbox" data-attr="show-likes" checked> Likes</label>
         <label><input type="checkbox" data-attr="show-reposts" checked> Reposts</label>
         <label><input type="checkbox" data-attr="show-replies" checked> Replies</label>
@@ -197,37 +305,24 @@
         <label><input type="checkbox" data-attr="show-sort" checked> Sort</label>
         <label><input type="checkbox" data-attr="show-join-button" checked> Write reply</label>
       </div>
+      <div class="slider-controls">
+        <label>Width
+          <input type="range" data-attr="width" data-unit="%" min="20" max="100" step="1" value="100">
+          <span class="range-value">100%</span>
+        </label>
+        <label>Max width
+          <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+          <span class="range-value">728px</span>
+        </label>
+      </div>
     </div>
 
-    <h2 class="section-title">Post Embed</h2>
-    <P class="section-subtitle">Embed Bluesky posts on your blog or website.</P>
-    <div class="embed-wrap">
-      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
-        data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
-        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
-        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
-        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
-        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"
-        data-show-reply-quote-labels="true" data-show-main-post="true" data-show-liked-by="true"
-        data-show-replies-tab="true" data-show-quotes-tab="true" data-show-tabs="true" data-show-sort="true"
-        data-show-join-button="true"></div>
-
-      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-code">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-        </svg>
-        Get Code
-      </button>
-    </div>
-
-    <h2 class="section-title">Discussion Embed</h2>
-    <P class="section-subtitle">Turn a Bluesky post into a comment section.</P>
-    <div class="embed-wrap">
-      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
-        data-mode="discussion" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+    <h2 class="section-title" data-tab-section="discussion">Discussion Embed</h2>
+    <P class="section-subtitle" data-tab-section="discussion">Turn a Bluesky post into a comment section.</P>
+    <div class="embed-wrap" data-tab-section="discussion">
+      <div class="atproto-embed" id="discussion-embed"
+        data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l" data-mode="discussion"
+        data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
         data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
         data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
         data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
@@ -245,6 +340,129 @@
         </svg>
         Get Code
       </button>
+    </div>
+
+    <div class="profile-controls" data-tab-section="profile">
+      <h2 class="section-title">Profile Widget</h2>
+      <P class="section-subtitle">Show a Bluesky profile card with full control.</P>
+      <div class="manual">
+        <input type="text" id="profile-handle" placeholder="Handle or DID (e.g. bsky.app)">
+        <button class="load-btn" onclick="loadProfileFromInput()">Load</button>
+      </div>
+
+      <div class="options-panel">
+        <div class="options-grid profile-options">
+          <label><input type="checkbox" data-attr="show-avatar" checked> Avatar</label>
+          <label><input type="checkbox" data-attr="show-display-name" checked> Name</label>
+          <label><input type="checkbox" data-attr="show-handle" checked> Handle</label>
+          <label><input type="checkbox" data-attr="show-verification" checked> Verification</label>
+          <label><input type="checkbox" data-attr="show-description" checked> Description</label>
+          <label><input type="checkbox" data-attr="show-cover" checked> Cover</label>
+          <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+          <label><input type="checkbox" data-attr="show-followers" checked> Followers</label>
+          <label><input type="checkbox" data-attr="show-following" checked> Following</label>
+          <label><input type="checkbox" data-attr="show-posts" checked> Posts</label>
+          <label><input type="checkbox" data-attr="show-follow" checked> Fill</label>
+          <label><input type="checkbox" data-attr="show-connect" checked> Outline</label>
+        </div>
+
+        <div class="profile-inputs">
+          <select data-attr="client-preset" title="Client">
+            <option value="bsky.app|Bluesky" selected>Bluesky (bsky.app)</option>
+            <option value="blacksky.community|Blacksky">Blacksky</option>
+            <option value="deer.social|Deer Social">Deer Social</option>
+            <option value="witchsky.app|Witchsky">Witchsky</option>
+            <option value="eurosky.social|Eurosky">Eurosky</option>
+          </select>
+          <input type="text" data-attr="label-follow" placeholder="Follow label (e.g. Join the party)">
+          <input type="text" data-attr="label-connect" placeholder="Connect label (e.g. Say hi!)">
+        </div>
+        <div class="slider-controls">
+          <label>Width
+            <input type="range" data-attr="width" data-unit="%" min="20" max="100" step="1" value="100">
+            <span class="range-value">100%</span>
+          </label>
+          <label>Max width
+            <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+            <span class="range-value">728px</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="embed-wrap">
+        <div class="atproto-profile" data-profile="bsky.app" data-width="100%" data-max-width="728px" data-size="full"
+          data-show-avatar="true" data-show-display-name="true" data-show-handle="true" data-show-verification="true"
+          data-show-description="true" data-show-cover="true" data-show-metrics="true" data-show-followers="true"
+          data-show-following="true" data-show-posts="true" data-show-follow="true" data-show-connect="true"
+          data-client-name="Bluesky" data-client-domain="bsky.app"></div>
+        <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-code">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Get Code
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-controls" data-tab-section="members">
+      <h2 class="section-title">Members Widget</h2>
+      <P class="section-subtitle">Display members from any ATProto list as cards.</P>
+      <div class="manual">
+        <input type="text" id="members-list" placeholder="List URL or AT URI">
+        <button class="load-btn" onclick="loadMembersFromInput()">Load</button>
+      </div>
+
+      <div class="options-panel">
+        <div class="options-grid members-options">
+          <label><input type="checkbox" data-attr="show-avatar" checked> Avatar</label>
+          <label><input type="checkbox" data-attr="show-display-name" checked> Display name</label>
+          <label><input type="checkbox" data-attr="show-handle" checked> Handle</label>
+          <label><input type="checkbox" data-attr="show-verification" checked> Verification</label>
+          <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+          <label><input type="checkbox" data-attr="show-posts" checked> Posts</label>
+          <label><input type="checkbox" data-attr="show-followers" checked> Followers</label>
+          <label><input type="checkbox" data-attr="show-following" checked> Following</label>
+          <label><input type="checkbox" data-attr="columns"> Two columns</label>
+        </div>
+
+        <div class="slider-controls">
+          <label>Width
+            <input type="range" data-attr="width" data-unit="%" min="20" max="100" step="1" value="100">
+            <span class="range-value">100%</span>
+          </label>
+          <label>Max width
+            <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+            <span class="range-value">728px</span>
+          </label>
+        </div>
+
+        <div class="members-slider-wrap">
+          <div class="slider-label">
+            <span>Members Limit</span>
+            <span id="members-limit-val">16</span>
+          </div>
+          <input type="range" data-attr="limit" min="4" max="100" value="16" class="demo-slider">
+        </div>
+      </div>
+
+      <div class="embed-wrap">
+        <div class="atproto-members" data-list="https://bsky.app/profile/romiojoseph.github.io/lists/3lnaenknrbt2w"
+          data-width="100%" data-max-width="728px" data-columns="3" data-limit="16" data-show-avatar="true"
+          data-show-display-name="true" data-show-handle="true" data-show-verification="true" data-show-metrics="true"
+          data-show-posts="true" data-show-followers="true" data-show-following="true"></div>
+        <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-code">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Get Code
+        </button>
+      </div>
     </div>
   </div>
 
@@ -312,6 +530,9 @@
   <script src="demo.js"></script>
 
   <script src="src/embed.js" data-preload-icons="true"></script>
+  <script src="src/profile.js"></script>
+  <script src="src/badges.js"></script>
+  <script src="src/members.js"></script>
 </body>
 
 </html>

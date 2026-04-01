@@ -359,7 +359,7 @@
 
   var BADGE_ICONS = {
     crown: "original-seal",
-    seal: "trsuted-seal",
+    seal: "trusted-seal",
     check: "check-circle",
     lock: "private",
     tag: "label",
@@ -373,7 +373,7 @@
     "quote-fill",
     "bookmark-fill",
     "original-seal",
-    "trsuted-seal",
+    "trusted-seal",
     "check-circle",
     "private",
     "label",
@@ -1750,8 +1750,8 @@
     ]);
 
     var thread = results[0];
-    var quotesData = results[1];
-    var likesData = results[2];
+    var quotesData = results[1] || { posts: [] };
+    var likesData = results[2] || { likes: [] };
     var profile = results[3];
 
     if (profile && thread && thread.post && thread.post.author) {
@@ -1783,7 +1783,8 @@
       ]);
       var thread = results[0];
       var profile = results[1];
-      if (profile) {
+
+      if (thread && thread.post && thread.post.author && profile) {
         if (profile.verification) thread.post.author.verification = profile.verification;
         if (profile.associated) thread.post.author.associated = profile.associated;
       }
