@@ -7,11 +7,6 @@ var discussionLoadTimer = null;
 
 function normalizeAttrValue(attr, opt) {
   var raw = opt.value;
-  if (attr === 'width') {
-    var unit = opt.dataset.unit || '%';
-    if (unit === '%') return raw + '%';
-    if (unit === 'px') return raw + 'px';
-  }
   if (attr === 'max-width') {
     var maxUnit = opt.dataset.unit || 'px';
     if (maxUnit === 'px') return raw + 'px';
@@ -22,8 +17,21 @@ function normalizeAttrValue(attr, opt) {
 
 var demoProfiles = document.querySelectorAll('.atproto-profile');
 var profileOptions = document.querySelectorAll('.profile-options [data-attr]');
-var profileInputs = document.querySelectorAll('.profile-controls[data-tab-section="profile"] [data-attr], .options-selects [data-attr]');
+var profileInputs = document.querySelectorAll('.profile-controls[data-tab-section="profile"] .profile-inputs [data-attr], .profile-controls[data-tab-section="profile"] .slider-controls [data-attr]');
 var profileLoadTimer = null;
+
+function applyProfileSizePreview() {
+  var maxWidthInput = document.querySelector('.profile-controls[data-tab-section="profile"] [data-attr="max-width"]');
+  var maxWidthVal = maxWidthInput ? normalizeAttrValue('max-width', maxWidthInput) : null;
+
+  demoProfiles.forEach(function (c) {
+    c.setAttribute('data-width', '100%');
+    if (maxWidthVal) {
+      c.setAttribute('data-max-width', maxWidthVal);
+      c.style.setProperty('--atproto-max-width', maxWidthVal);
+    }
+  });
+}
 
 var demoMembers = document.querySelectorAll('.atproto-members');
 var membersOptions = document.querySelectorAll('.profile-controls[data-tab-section="members"] [data-attr]');
@@ -58,6 +66,7 @@ function loadPost(uri) {
         c.setAttribute('data-' + attr, normalizeAttrValue(attr, opt));
       }
     });
+    c.setAttribute('data-width', '100%');
     c.removeAttribute('data-loaded');
     c.innerHTML = '';
   });
@@ -93,6 +102,7 @@ function loadDiscussion(uri) {
         c.setAttribute('data-' + attr, normalizeAttrValue(attr, opt));
       }
     });
+    c.setAttribute('data-width', '100%');
     c.removeAttribute('data-loaded');
     c.innerHTML = '';
   });
@@ -182,7 +192,7 @@ function loadProfile(actor) {
           if (domain) c.setAttribute('data-client-domain', domain);
           if (name) c.setAttribute('data-client-name', name);
         }
-      } else if (attr === 'width' || attr === 'max-width') {
+      } else if (attr === 'max-width') {
         c.setAttribute('data-' + attr, normalizeAttrValue(attr, opt));
       } else if (val) {
         c.setAttribute('data-' + attr, val);
@@ -190,6 +200,7 @@ function loadProfile(actor) {
         c.removeAttribute('data-' + attr);
       }
     });
+    c.setAttribute('data-width', '100%');
     c.removeAttribute('data-loaded');
     c.innerHTML = '';
   });
@@ -217,8 +228,20 @@ if (profileInput) {
   });
 }
 
-document.querySelectorAll('.profile-controls[data-tab-section="profile"] [data-attr], .options-selects [data-attr]').forEach(function (el) {
+document.querySelectorAll('.profile-options [data-attr]').forEach(function (el) {
   el.addEventListener('change', function () {
+    if (profileLoadTimer) clearTimeout(profileLoadTimer);
+    profileLoadTimer = setTimeout(function () { loadProfile(); }, 120);
+  });
+});
+
+document.querySelectorAll('.profile-controls[data-tab-section="profile"] .profile-inputs [data-attr], .profile-controls[data-tab-section="profile"] .slider-controls [data-attr]').forEach(function (el) {
+  el.addEventListener('change', function () {
+    var attr = el.getAttribute('data-attr');
+    if (attr === 'max-width') {
+      applyProfileSizePreview();
+      return;
+    }
     if (profileLoadTimer) clearTimeout(profileLoadTimer);
     profileLoadTimer = setTimeout(function () { loadProfile(); }, 200);
   });
@@ -232,6 +255,11 @@ document.querySelectorAll('.profile-controls[data-tab-section="profile"] [data-a
     el.addEventListener('input', function () {
       var out = el.closest('label')?.querySelector('.range-value');
       if (out) out.textContent = el.dataset.unit === '%' ? el.value + '%' : el.value + 'px';
+      var attr = el.getAttribute('data-attr');
+      if (attr === 'max-width') {
+        applyProfileSizePreview();
+        return;
+      }
       if (profileLoadTimer) clearTimeout(profileLoadTimer);
       profileLoadTimer = setTimeout(function () { loadProfile(); }, 200);
     });
@@ -267,6 +295,7 @@ function loadMembers(listValue) {
         c.setAttribute('data-' + attr, normalizeAttrValue(attr, opt));
       }
     });
+    c.setAttribute('data-width', '100%');
     c.removeAttribute('data-loaded');
     c.innerHTML = '';
   });

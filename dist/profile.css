@@ -37,7 +37,7 @@
 
 .atproto-profile-card--size-fit {
   width: fit-content;
-  min-width: 320px;
+  min-width: 0;
   max-width: 100%;
 }
 
@@ -157,6 +157,16 @@
   line-height: 1.5;
   color: var(--atproto-text-color);
   white-space: pre-wrap;
+}
+
+.atproto-profile__link {
+  color: var(--atproto-accent-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.atproto-profile__link:hover {
+  text-decoration-thickness: 2px;
 }
 
 .atproto-profile__metrics {

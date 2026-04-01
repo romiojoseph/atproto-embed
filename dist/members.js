@@ -59,21 +59,22 @@
 
   function fetchProfile(actor, signal) {
     if (!actor) return Promise.resolve(null);
-    if (PROFILE_CACHE.has(actor)) return PROFILE_CACHE.get(actor);
+    if (PROFILE_CACHE.has(actor)) {
+      return Promise.resolve(PROFILE_CACHE.get(actor));
+    }
     var url =
       API_BASE +
       "app.bsky.actor.getProfile?actor=" +
       encodeURIComponent(actor);
-    var p = fetchJsonDedup(url, url, "Failed to fetch profile", signal)
+    return fetchJsonDedup("profile:" + actor, url, "Failed to fetch profile", signal)
       .then(function (data) {
+        PROFILE_CACHE.set(actor, data);
         return data;
       })
-      .catch(function () {
-        PROFILE_CACHE.delete(actor);
+      .catch(function (err) {
+        if (err && err.name === "AbortError") throw err;
         return null;
       });
-    PROFILE_CACHE.set(actor, p);
-    return p;
   }
 
   function el(tag, className, attrs) {

@@ -38,21 +38,22 @@
 
   function fetchProfile(actor, signal) {
     if (!actor) return Promise.resolve(null);
-    if (PROFILE_CACHE.has(actor)) return PROFILE_CACHE.get(actor);
+    if (PROFILE_CACHE.has(actor)) {
+      return Promise.resolve(PROFILE_CACHE.get(actor));
+    }
     var url =
       API_BASE +
       "app.bsky.actor.getProfile?actor=" +
       encodeURIComponent(actor);
-    var p = fetchJsonDedup(url, url, "Failed to fetch profile", signal)
+    return fetchJsonDedup("profile:" + actor, url, "Failed to fetch profile", signal)
       .then(function (data) {
+        PROFILE_CACHE.set(actor, data);
         return data;
       })
-      .catch(function () {
-        PROFILE_CACHE.delete(actor);
+      .catch(function (err) {
+        if (err && err.name === "AbortError") throw err;
         return null;
       });
-    PROFILE_CACHE.set(actor, p);
-    return p;
   }
 
   function el(tag, className, attrs) {
@@ -73,6 +74,71 @@
       return (n / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
     if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, "") + "K";
     return String(n);
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function linkifyDescription(text, config) {
+    if (!text) return "";
+    var input = String(text);
+    var out = "";
+    var lastIndex = 0;
+    var re = /https?:\/\/[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|@[A-Z0-9._-]+|#[A-Z0-9_]+/gi;
+    var m;
+    while ((m = re.exec(input)) !== null) {
+      var start = m.index;
+      var match = m[0];
+      if (start > lastIndex) {
+        out += escapeHtml(input.slice(lastIndex, start));
+      }
+      if (match[0] === "@") {
+        var handle = match.slice(1);
+        var url = profileUrl(config, handle);
+        out +=
+          '<a class="atproto-profile__link" href="' +
+          escapeHtml(url) +
+          '" target="_blank" rel="noopener noreferrer">@' +
+          escapeHtml(handle) +
+          "</a>";
+      } else if (match[0] === "#") {
+        var tag = match.slice(1);
+        var tagUrl = clientBase(config) + "/hashtag/" + encodeURIComponent(tag);
+        out +=
+          '<a class="atproto-profile__link" href="' +
+          escapeHtml(tagUrl) +
+          '" target="_blank" rel="noopener noreferrer">#' +
+          escapeHtml(tag) +
+          "</a>";
+      } else if (match.indexOf("://") !== -1) {
+        out +=
+          '<a class="atproto-profile__link" href="' +
+          escapeHtml(match) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(match) +
+          "</a>";
+      } else if (match.indexOf("@") !== -1) {
+        out +=
+          '<a class="atproto-profile__link" href="mailto:' +
+          escapeHtml(match) +
+          '">' +
+          escapeHtml(match) +
+          "</a>";
+      } else {
+        out += escapeHtml(match);
+      }
+      lastIndex = start + match.length;
+    }
+    if (lastIndex < input.length) {
+      out += escapeHtml(input.slice(lastIndex));
+    }
+    return out;
   }
 
   /* ───── Icons ───── */
@@ -255,9 +321,9 @@
     body.appendChild(header);
 
     if (config.showDescription !== false && description) {
-      body.appendChild(
-        el("div", "atproto-profile__description", { textContent: description })
-      );
+      var desc = el("div", "atproto-profile__description");
+      desc.innerHTML = linkifyDescription(description, config);
+      body.appendChild(desc);
     }
 
     if (config.showMetrics !== false) {
