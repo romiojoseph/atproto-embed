@@ -96,21 +96,15 @@
     return String(n);
   }
 
-  /* ───── Icons ───── */
-
-  function getBasePath() {
-    var scripts = document.querySelectorAll("script[src]");
-    for (var i = scripts.length - 1; i >= 0; i--) {
-      var src = scripts[i].src;
-      if (src.indexOf("members.js") !== -1) {
-        return src.substring(0, src.lastIndexOf("/") + 1);
-      }
-    }
-    return "./";
-  }
+    var ICONS = {
+    "avatar-fallback": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2248%22%20fill%3D%22none%22%20viewBox%3D%220%200%2048%2048%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20fill%3D%22%23e0e0e0%22%20rx%3D%2224%22%2F%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M32%2020a8%208%200%201%201-16%200%208%208%200%200%201%2016%200%22%20opacity%3D%22.2%22%2F%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M36.865%2034.5c-1.904-3.291-4.838-5.651-8.261-6.77a9%209%200%201%200-9.208%200c-3.424%201.117-6.357%203.477-8.261%206.77a.997.997%200%200%200%20.352%201.389%201%201%200%200%200%201.38-.389C15.22%2031.43%2019.383%2029%2024%2029s8.779%202.43%2011.134%206.5a1.001%201.001%200%201%200%201.73-1M17%2020a7%207%200%201%201%207%207%207.007%207.007%200%200%201-7-7%22%2F%3E%3C%2Fsvg%3E",
+    "check-circle": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22url(%23a)%22%20d%3D%22M16%203a13%2013%200%201%200%2013%2013A13.013%2013.013%200%200%200%2016%203m5.708%2010.708-7%207a1%201%200%200%201-1.415%200l-3-3a1%201%200%200%201%201.415-1.415L14%2018.586l6.293-6.293a1%201%200%200%201%201.415%201.415%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22a%22%20x1%3D%223%22%20x2%3D%2229%22%20y1%3D%223%22%20y2%3D%2229%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%23006aff%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23004099%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
+    "original-seal": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22url(%23a)%22%20d%3D%22M28.233%2012.853c-.472-.493-.96-1-1.143-1.447-.17-.409-.18-1.086-.19-1.742-.019-1.22-.039-2.603-1-3.564s-2.344-.981-3.564-1c-.656-.01-1.333-.02-1.742-.19-.445-.184-.954-.671-1.447-1.142C18.286%202.938%2017.306%202%2016%202s-2.284.939-3.148%201.768c-.492.47-1%20.958-1.446%201.142-.406.17-1.086.18-1.742.19-1.22.019-2.603.039-3.564%201s-.975%202.344-1%203.564c-.01.656-.02%201.334-.19%201.742-.184.445-.671.954-1.142%201.446C2.938%2013.715%202%2014.696%202%2016s.939%202.284%201.768%203.148c.47.492.958%201%201.142%201.446.17.409.18%201.086.19%201.742.019%201.22.039%202.603%201%203.564s2.344.981%203.564%201c.656.01%201.334.02%201.742.19.445.184.954.671%201.446%201.143C13.715%2029.06%2014.696%2030%2016%2030s2.284-.939%203.148-1.767c.492-.472%201-.96%201.446-1.143.409-.17%201.086-.18%201.742-.19%201.22-.019%202.603-.039%203.564-1s.981-2.344%201-3.564c.01-.656.02-1.333.19-1.742.184-.445.671-.954%201.143-1.447C29.06%2018.286%2030%2017.306%2030%2016s-.939-2.284-1.767-3.148m-6.526.854-7%207a1%201%200%200%201-1.415%200l-3-3a1%201%200%200%201%201.415-1.415L14%2018.587l6.293-6.293a1%201%200%200%201%201.415%201.415%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22a%22%20x1%3D%222%22%20x2%3D%2230%22%20y1%3D%222%22%20y2%3D%2230%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%23ff6200%22%2F%3E%3Cstop%20offset%3D%22.615%22%20stop-color%3D%22%23f80%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ff5900%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E",
+    "trusted-seal": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22url(%23a)%22%20d%3D%22M28.233%2012.853c-.472-.493-.96-1-1.143-1.447-.17-.409-.18-1.086-.19-1.742-.019-1.22-.039-2.603-1-3.564s-2.344-.981-3.564-1c-.656-.01-1.333-.02-1.742-.19-.445-.184-.954-.671-1.447-1.142C18.286%202.938%2017.306%202%2016%202s-2.284.939-3.148%201.768c-.492.47-1%20.958-1.446%201.142-.406.17-1.086.18-1.742.19-1.22.019-2.603.039-3.564%201s-.975%202.344-1%203.564c-.01.656-.02%201.334-.19%201.742-.184.445-.671.954-1.142%201.446C2.938%2013.715%202%2014.696%202%2016s.939%202.284%201.768%203.148c.47.492.958%201%201.142%201.446.17.409.18%201.086.19%201.742.019%201.22.039%202.603%201%203.564s2.344.981%203.564%201c.656.01%201.334.02%201.742.19.445.184.954.671%201.446%201.143C13.715%2029.06%2014.696%2030%2016%2030s2.284-.939%203.148-1.767c.492-.472%201-.96%201.446-1.143.409-.17%201.086-.18%201.742-.19%201.22-.019%202.603-.039%203.564-1s.981-2.344%201-3.564c.01-.656.02-1.333.19-1.742.184-.445.671-.954%201.143-1.447C29.06%2018.286%2030%2017.306%2030%2016s-.939-2.284-1.767-3.148m-6.526.854-7%207a1%201%200%200%201-1.415%200l-3-3a1%201%200%200%201%201.415-1.415L14%2018.587l6.293-6.293a1%201%200%200%201%201.415%201.415%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22a%22%20x1%3D%222%22%20x2%3D%2230%22%20y1%3D%222%22%20y2%3D%2230%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%2329de6b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230f9f44%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3C%2Fsvg%3E"
+  };
 
   function getIconUrl(name) {
-    return getBasePath() + "../public/" + name + ".svg";
+    return ICONS[name] || "";
   }
 
   var BADGE_ICONS = {
@@ -311,11 +305,10 @@
 
   /* ───── CSS injection ───── */
 
-  function injectStyles(root) {
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = getBasePath() + "members.css";
-    root.appendChild(link);
+    function injectStyles(root) {
+    var style = document.createElement("style");
+    style.textContent = ":host{--atproto-columns:3;--atproto-bg:var(--neutral-0,#ffffff);--atproto-border-color:var(--neutral-3,#e9ecef);--atproto-text-color:var(--neutral-10,#101213);--atproto-muted-color:var(--neutral-7,#6a7178);--atproto-accent-color:var(--primary-base,#0a66f4);--atproto-radius:12px;--atproto-font-family:var(--font-sans,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif)}:host(.atproto-members-host){display:block;width:var(--atproto-width,100%);max-width:var(--atproto-max-width,none);font-family:var(--atproto-font-family);color:var(--atproto-text-color)}.atproto-members-inner{width:100%}.atproto-members--loading,.atproto-members--error,.atproto-members__empty{padding:18px;border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);background:var(--atproto-bg);color:var(--atproto-muted-color);text-align:center;font-size:var(--font-body,14px)}.atproto-members__grid{display:grid;grid-template-columns:repeat(var(--atproto-columns,3),minmax(0,1fr));gap:14px}.atproto-members__card{display:flex;gap:12px;padding:12px;background:var(--atproto-bg);border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);align-items:center}.atproto-members__avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0}.atproto-members__meta{display:flex;flex-direction:column;gap:4px;min-width:0}.atproto-members__name-row{display:flex;align-items:center;gap:6px}.atproto-members__name{font-size:14px;font-weight:700;color:var(--atproto-text-color);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__badge{width:14px;height:14px}.atproto-members__handle{font-size:var(--font-caption,12px);color:var(--atproto-muted-color)}.atproto-members__metrics{display:flex;gap:8px;margin-top:2px}.atproto-members__metric{display:flex;align-items:center;gap:4px;font-size:var(--font-tagline,11px);color:var(--atproto-muted-color);white-space:nowrap}@media (max-width:900px){.atproto-members__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.atproto-members__grid{grid-template-columns:1fr}}";
+    root.appendChild(style);
   }
 
   /* ───── Init ───── */

@@ -195,12 +195,16 @@ function loadProfile(actor) {
   });
 
   if (refreshProfiles()) return;
+  if (window.AtProtoLoader && typeof window.AtProtoLoader.refresh === 'function') {
+    window.AtProtoLoader.refresh();
+    return;
+  }
 
-  var old = document.getElementById('profile-script');
+  var old = document.getElementById('embed-script');
   if (old) old.remove();
   var s = document.createElement('script');
-  s.id = 'profile-script';
-  s.src = 'src/profile.js?t=' + Date.now();
+  s.id = 'embed-script';
+  s.src = 'src/embed.js?t=' + Date.now();
   document.body.appendChild(s);
 }
 
@@ -268,12 +272,16 @@ function loadMembers(listValue) {
   });
 
   if (refreshMembers()) return;
+  if (window.AtProtoLoader && typeof window.AtProtoLoader.refresh === 'function') {
+    window.AtProtoLoader.refresh();
+    return;
+  }
 
-  var old = document.getElementById('members-script');
+  var old = document.getElementById('embed-script');
   if (old) old.remove();
   var s = document.createElement('script');
-  s.id = 'members-script';
-  s.src = 'src/members.js?t=' + Date.now();
+  s.id = 'embed-script';
+  s.src = 'src/embed.js?t=' + Date.now();
   document.body.appendChild(s);
 }
 
@@ -323,16 +331,7 @@ document.querySelectorAll('.demo-tabs input[type="radio"]').forEach(radio => {
 
 function updateCodeSnippetLinks() {
   const activeTab = document.body.getAttribute('data-active-tab') || 'post';
-  let scriptName;
-  if (activeTab === 'post' || activeTab === 'discussion') {
-    scriptName = 'embed.js';
-  } else if (activeTab === 'profile') {
-    scriptName = 'profile.js';
-  } else if (activeTab === 'members') {
-    scriptName = 'members.js';
-  } else {
-    scriptName = 'embed.js';
-  }
+  let scriptName = 'embed.js';
 
   // Update Script tab
   const scriptCode = `<script src="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/${scriptName}"></script>`;
@@ -396,11 +395,9 @@ function openCodePopover(buttonElem) {
 
   if (!embed) {
     embed = wrap.querySelector('.atproto-profile');
-    if (embed) scriptSrc = "profile.js";
   }
   if (!embed) {
     embed = wrap.querySelector('.atproto-members');
-    if (embed) scriptSrc = "members.js";
   }
 
   if (!embed) return;

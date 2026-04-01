@@ -137,10 +137,10 @@ There are no `node_modules` dependencies for runtime code. Just open the port an
 
 The JS files in `dist/` are generated via `node scripts/build.js`.
 
-1. It gathers all SVGs in `public/` and minifies them into data URIs.
-2. It concatenates formatting.
-3. It takes `embed.css`, minifies it, and injects it dynamically at runtime.
-4. Generates a completely standalone `dist/embed.js` (and a separate copy of `embed.css` alongside it).
+1. `dist/embed.js` is the lightweight loader/orchestrator.
+2. Widget runtimes (`dist/post.js`, `dist/profile.js`, `dist/members.js`) are built as self-contained files with inlined SVG icons and CSS.
+3. Standalone CSS copies are also emitted (`post.css`, `profile.css`, `members.css`).
+4. `dist/embed.css` is kept as a backward-compatible alias of `dist/post.css`.
 
 To build distribution bundles manually:
 
