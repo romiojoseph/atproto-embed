@@ -122,6 +122,15 @@
   margin: 32px 0;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "GRAD" 0;
+}
+
 /* ── Layout wrappers ── */
 
 

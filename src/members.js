@@ -190,6 +190,10 @@
       showMetrics: true,
       showFollowers: true,
       showFollowing: true,
+      showButton: true,
+      buttonStyle: "filled",
+      buttonLabel: "View more",
+      listUrl: null,
       columns: "3",
       limit: 16,
       width: null,
@@ -204,6 +208,7 @@
     config.showFollowers = parseBoolAttr(container, "show-followers", config.showFollowers);
     config.showFollowing = parseBoolAttr(container, "show-following", config.showFollowing);
     config.showPosts = parseBoolAttr(container, "show-posts", config.showPosts);
+    config.showButton = parseBoolAttr(container, "show-button", config.showButton);
 
     config.columns = parseStringAttr(container, "columns", config.columns);
     if (config.columns === "true") config.columns = "2";
@@ -214,6 +219,9 @@
 
     config.width = parseStringAttr(container, "width", config.width);
     config.maxWidth = parseStringAttr(container, "max-width", config.maxWidth);
+    config.buttonStyle = parseStringAttr(container, "button-style", config.buttonStyle);
+    config.buttonLabel = parseStringAttr(container, "button-label", config.buttonLabel);
+    config.listUrl = parseStringAttr(container, "list-url", config.listUrl);
 
     return config;
   }
@@ -294,7 +302,8 @@
     return card;
   }
 
-  function renderMembers(listData, config) {
+  function renderMembers(listData, config, listLink) {
+    var wrapper = el("div", "atproto-members__wrap");
     var grid = el("div", "atproto-members__grid");
     var items = (listData && listData.items) || [];
     if (!items.length) {
@@ -307,7 +316,28 @@
       if (!subject) return;
       grid.appendChild(renderMemberCard(subject, config));
     });
-    return grid;
+    wrapper.appendChild(grid);
+
+    if (config.showButton !== false && listLink) {
+      var row = el("div", "atproto-members__button-row");
+      var btnClass = "atproto-members__button";
+      if (config.buttonStyle === "outline") {
+        btnClass += " atproto-members__button--outline";
+      } else {
+        btnClass += " atproto-members__button--filled";
+      }
+      row.appendChild(
+        el("a", btnClass, {
+          href: listLink,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          textContent: config.buttonLabel || "View more",
+        })
+      );
+      wrapper.appendChild(row);
+    }
+
+    return wrapper;
   }
 
   /* ───── CSS injection ───── */
@@ -366,7 +396,10 @@
         await Promise.all(enrich);
       }
       wrapper.innerHTML = "";
-      wrapper.appendChild(renderMembers(listData, config));
+      var listLink = null;
+      if (raw && raw.indexOf("http") === 0) listLink = raw;
+      if (!listLink && config.listUrl) listLink = config.listUrl;
+      wrapper.appendChild(renderMembers(listData, config, listLink));
     } catch (err) {
       if (err && err.name === "AbortError") return;
       wrapper.innerHTML = "";

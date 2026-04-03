@@ -62,6 +62,12 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+  font-variation-settings:
+    "GRAD" 0;
 }
 
 body.popover-open {
@@ -294,9 +300,9 @@ select:focus {
   font-weight: 600;
   color: var(--neutral-9);
   background: var(--neutral-1);
-  border: 1px solid var(--neutral-2);
-  border-radius: 10px;
-  padding: 10px;
+  border: 2px solid var(--neutral-2);
+  border-radius: 16px;
+  padding: 16px;
   gap: 8px;
 }
 
@@ -1091,11 +1097,27 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
 }
 
 .members-slider-wrap {
-  margin-top: 24px;
   background: var(--neutral-1);
   padding: 16px;
   border-radius: 16px;
   border: 1px solid var(--neutral-2);
+}
+
+.members-sliders-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 720px) {
+  .members-sliders-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.members-sliders-row .slider-controls {
+  margin-top: 0;
 }
 
 .slider-label {
@@ -1175,4 +1197,30 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
   height: 6px;
   border-radius: 3px;
   background: var(--neutral-3);
+}
+
+.members-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px 12px;
+  margin-top: 16px;
+}
+
+.members-inputs input {
+  padding: 8px 10px;
+  font-size: var(--font-body);
+  border: 2px solid var(--neutral-1);
+  border-radius: 10px;
+  background: var(--neutral-0);
+  color: var(--neutral-11);
+  transition: var(--transition);
+  outline: 2px solid transparent;
+}
+
+.members-inputs input:hover {
+  border-color: var(--neutral-3);
+}
+
+.members-inputs input:focus {
+  outline: 4px solid var(--neutral-1);
 }

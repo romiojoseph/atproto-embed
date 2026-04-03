@@ -290,7 +290,11 @@ function loadMembers(listValue) {
     membersOptions.forEach(function (opt) {
       var attr = opt.getAttribute('data-attr');
       if (opt.type === 'checkbox') {
-        c.setAttribute('data-' + attr, opt.checked ? 'true' : 'false');
+        if (attr === 'button-outline') {
+          c.setAttribute('data-button-style', opt.checked ? 'outline' : 'filled');
+        } else {
+          c.setAttribute('data-' + attr, opt.checked ? 'true' : 'false');
+        }
       } else {
         c.setAttribute('data-' + attr, normalizeAttrValue(attr, opt));
       }
