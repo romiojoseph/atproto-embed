@@ -367,9 +367,11 @@ select:focus {
 }
 
 .slider-controls .range-value {
-  font-size: var(--font-caption);
-  font-weight: 700;
-  color: var(--primary-base);
+  background: var(--primary-base);
+  color: var(--neutral-0);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: var(--font-label);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1130,7 +1132,7 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
   font-weight: 600;
 }
 
-#members-limit-val {
+.slider-value-pill {
   background: var(--primary-base);
   color: var(--neutral-0);
   padding: 2px 8px;
@@ -1201,7 +1203,7 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
 
 .members-inputs {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   gap: 8px 12px;
   margin-top: 16px;
 }

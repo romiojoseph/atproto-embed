@@ -161,7 +161,7 @@ button {
   background: var(--atproto-bg);
   border: 1px solid var(--neutral-3);
   border-radius: 20px;
-  box-shadow: 0 0 0 2px var(--neutral-1);
+  box-shadow: 0 0 0 3px var(--neutral-1);
   padding: 16px;
   color: var(--atproto-text-color);
 }
@@ -900,10 +900,10 @@ button {
 /* Discussion wrapper */
 .atproto-embed--discussion .atproto-discussion {
   background: var(--atproto-bg);
-  border: var(--atproto-border-width) solid var(--atproto-border-color);
+  border: 1px solid var(--neutral-3);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 0 3px var(--neutral-1);
 }
 
 /* Main post inside discussion — matches post embed style */

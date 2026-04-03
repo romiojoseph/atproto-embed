@@ -197,9 +197,12 @@
         <label><input type="checkbox" data-attr="show-labels" checked> Labels</label>
       </div>
       <div class="slider-controls">
-        <label>Max width
+        <label>
+          <div class="slider-label">
+            <span>Max width</span>
+            <span class="range-value slider-value-pill">728px</span>
+          </div>
           <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
-          <span class="range-value">728px</span>
         </label>
       </div>
     </div>
@@ -300,9 +303,12 @@
         <label><input type="checkbox" data-attr="show-join-button" checked> Write reply</label>
       </div>
       <div class="slider-controls">
-        <label>Max width
+        <label>
+          <div class="slider-label">
+            <span>Max width</span>
+            <span class="range-value slider-value-pill">728px</span>
+          </div>
           <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
-          <span class="range-value">728px</span>
         </label>
       </div>
     </div>
@@ -368,15 +374,18 @@
           <input type="text" data-attr="label-connect" placeholder="Connect label (e.g. Say hi!)">
         </div>
         <div class="slider-controls">
-          <label>Max width
-            <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
-            <span class="range-value">728px</span>
+          <label>
+            <div class="slider-label">
+              <span>Max width</span>
+              <span class="range-value slider-value-pill">440px</span>
+            </div>
+            <input type="range" data-attr="max-width" data-unit="px" min="228" max="1200" step="8" value="440">
           </label>
         </div>
       </div>
 
       <div class="embed-wrap">
-        <div class="atproto-profile" data-profile="bsky.app" data-width="100%" data-max-width="728px" data-size="full"
+        <div class="atproto-profile" data-profile="bsky.app" data-width="100%" data-max-width="440px" data-size="full"
           data-show-avatar="true" data-show-display-name="true" data-show-handle="true" data-show-verification="true"
           data-show-description="true" data-show-cover="true" data-show-metrics="true" data-show-followers="true"
           data-show-following="true" data-show-posts="true" data-show-follow="true" data-show-connect="true"
@@ -418,18 +427,21 @@
 
         <div class="members-sliders-row">
           <div class="slider-controls">
-            <label>Max width
+            <label>
+              <div class="slider-label">
+                <span>Max width</span>
+                <span class="range-value slider-value-pill">960px</span>
+              </div>
               <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="960">
-              <span class="range-value">960px</span>
             </label>
           </div>
 
           <div class="members-slider-wrap">
             <div class="slider-label">
               <span>Members Limit</span>
-              <span id="members-limit-val">16</span>
+              <span id="members-limit-val" class="slider-value-pill">15</span>
             </div>
-            <input type="range" data-attr="limit" min="4" max="100" value="16" class="demo-slider">
+            <input type="range" data-attr="limit" min="3" max="100" value="15" class="demo-slider">
           </div>
         </div>
 
@@ -440,7 +452,7 @@
 
       <div class="embed-wrap">
         <div class="atproto-members" data-list="https://bsky.app/profile/romiojoseph.github.io/lists/3lnaenknrbt2w"
-          data-width="100%" data-max-width="960px" data-columns="3" data-limit="16" data-show-avatar="true"
+          data-width="100%" data-max-width="960px" data-columns="3" data-limit="15" data-show-avatar="true"
           data-show-display-name="true" data-show-handle="true" data-show-verification="true" data-show-metrics="true"
           data-show-posts="true" data-show-followers="true" data-show-following="true"></div>
         <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">

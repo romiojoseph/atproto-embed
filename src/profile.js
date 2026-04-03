@@ -85,7 +85,7 @@
       .replace(/'/g, "&#39;");
   }
 
-  function linkifyDescription(text, config) {
+  function linkifyInline(text, config) {
     if (!text) return "";
     var input = String(text);
     var out = "";
@@ -139,6 +139,16 @@
       out += escapeHtml(input.slice(lastIndex));
     }
     return out;
+  }
+
+  function linkifyDescription(text, config) {
+    if (!text) return "";
+    var paragraphs = String(text).split(/\n\s*\n/);
+    var parts = paragraphs.map(function (para) {
+      var html = linkifyInline(para, config).replace(/\n/g, "<br>");
+      return '<div class="atproto-profile__paragraph">' + html + "</div>";
+    });
+    return parts.join("");
   }
 
   /* ───── Icons ───── */

@@ -37,7 +37,7 @@
 .atproto-members__grid {
   display: grid;
   grid-template-columns: repeat(var(--atproto-columns, 3), minmax(0, 1fr));
-  gap: 14px;
+  gap: 8px;
 }
 
 .atproto-members__button-row {
@@ -50,19 +50,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: var(--font-body);
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .atproto-members__button--filled {
-  background: var(--atproto-accent-color);
+  background: var(--primary-base);
   color: #ffffff;
-  border: 1px solid var(--atproto-accent-color);
-  box-shadow: 0 4px 12px rgba(10, 102, 244, 0.15);
+  border: 1px solid var(--primary-base);
 }
 
 .atproto-members__button--filled:hover {
@@ -84,17 +83,30 @@
 
 .atproto-members__card {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   padding: 12px;
   background: var(--neutral-0);
   border: 2px solid var(--neutral-1);
   border-radius: 12px;
-  align-items: center;
+  align-items: flex-start;
+  transition: var(--transition);
+}
+
+.atproto-members__card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.atproto-members__card-link:hover .atproto-members__card {
+  border-color: var(--neutral-3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
 .atproto-members__avatar {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -110,7 +122,7 @@
 .atproto-members__name-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .atproto-members__name {
@@ -130,6 +142,9 @@
 .atproto-members__handle {
   font-size: var(--font-caption);
   color: var(--neutral-8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .atproto-members__metrics {
@@ -142,8 +157,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: var(--font-tagline, 11px);
-  color: var(--atproto-muted-color);
+  font-size: var(--font-tagline);
+  color: var(--neutral-7);
   white-space: nowrap;
 }
 

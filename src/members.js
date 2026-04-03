@@ -194,6 +194,8 @@
       buttonStyle: "filled",
       buttonLabel: "View more",
       listUrl: null,
+      clientBase: null,
+      clientDomain: null,
       columns: "3",
       limit: 16,
       width: null,
@@ -222,6 +224,8 @@
     config.buttonStyle = parseStringAttr(container, "button-style", config.buttonStyle);
     config.buttonLabel = parseStringAttr(container, "button-label", config.buttonLabel);
     config.listUrl = parseStringAttr(container, "list-url", config.listUrl);
+    config.clientBase = parseStringAttr(container, "client-base", config.clientBase);
+    config.clientDomain = parseStringAttr(container, "client-domain", config.clientDomain);
 
     return config;
   }
@@ -231,6 +235,35 @@
     if (config.columns) container.style.setProperty("--atproto-columns", config.columns);
     if (config.width) container.style.setProperty("--atproto-width", config.width);
     if (config.maxWidth) container.style.setProperty("--atproto-max-width", config.maxWidth);
+  }
+
+  function extractClientDomain(raw) {
+    if (!raw || raw.indexOf("http") !== 0) return null;
+    try {
+      return new URL(raw).hostname;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function clientBase(config) {
+    if (config.clientBase) {
+      if (config.clientBase.indexOf("http") === 0) return config.clientBase;
+      return "https://" + config.clientBase;
+    }
+    if (config.clientDomain) return "https://" + config.clientDomain;
+    return "https://bsky.app";
+  }
+
+  function profileUrl(config, handleOrDid) {
+    return clientBase(config) + "/profile/" + handleOrDid;
+  }
+
+  function listUrlFromAtUri(atUri, config) {
+    if (!atUri || atUri.indexOf("at://") !== 0) return null;
+    var m = atUri.match(/^at:\/\/([^/]+)\/app\.bsky\.graph\.list\/([^/]+)$/);
+    if (!m) return null;
+    return clientBase(config) + "/profile/" + m[1] + "/lists/" + m[2];
   }
 
   function renderMemberCard(profile, config) {
@@ -299,7 +332,16 @@
     }
 
     card.appendChild(meta);
-    return card;
+
+    var handle = profile.handle || profile.did;
+    if (!handle) return card;
+    var link = el("a", "atproto-members__card-link", {
+      href: profileUrl(config, handle),
+      target: "_blank",
+      rel: "noopener noreferrer",
+    });
+    link.appendChild(card);
+    return link;
   }
 
   function renderMembers(listData, config, listLink) {
@@ -310,6 +352,11 @@
       return el("div", "atproto-members__empty", {
         textContent: "No members found",
       });
+    }
+    if (items.length === 1) {
+      grid.style.gridTemplateColumns = "1fr";
+    } else if (items.length === 2) {
+      grid.style.gridTemplateColumns = "1fr 1fr";
     }
     items.forEach(function (item) {
       var subject = item.subject || item.profile || item;
@@ -361,6 +408,10 @@
     CONTAINER_ABORTS.set(container, controller);
 
     var config = parseConfig(container);
+    if (!config.clientDomain) {
+      var inferred = extractClientDomain(raw);
+      if (inferred) config.clientDomain = inferred;
+    }
     applyLayoutVars(container, config);
 
     container.classList.add("atproto-members-host");
@@ -399,6 +450,7 @@
       var listLink = null;
       if (raw && raw.indexOf("http") === 0) listLink = raw;
       if (!listLink && config.listUrl) listLink = config.listUrl;
+      if (!listLink && listUri) listLink = listUrlFromAtUri(listUri, config);
       wrapper.appendChild(renderMembers(listData, config, listLink));
     } catch (err) {
       if (err && err.name === "AbortError") return;

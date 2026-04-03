@@ -188,6 +188,8 @@
       buttonStyle: "filled",
       buttonLabel: "View more",
       listUrl: null,
+      clientBase: null,
+      clientDomain: null,
       columns: "3",
       limit: 16,
       width: null,
@@ -216,6 +218,8 @@
     config.buttonStyle = parseStringAttr(container, "button-style", config.buttonStyle);
     config.buttonLabel = parseStringAttr(container, "button-label", config.buttonLabel);
     config.listUrl = parseStringAttr(container, "list-url", config.listUrl);
+    config.clientBase = parseStringAttr(container, "client-base", config.clientBase);
+    config.clientDomain = parseStringAttr(container, "client-domain", config.clientDomain);
 
     return config;
   }
@@ -225,6 +229,35 @@
     if (config.columns) container.style.setProperty("--atproto-columns", config.columns);
     if (config.width) container.style.setProperty("--atproto-width", config.width);
     if (config.maxWidth) container.style.setProperty("--atproto-max-width", config.maxWidth);
+  }
+
+  function extractClientDomain(raw) {
+    if (!raw || raw.indexOf("http") !== 0) return null;
+    try {
+      return new URL(raw).hostname;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function clientBase(config) {
+    if (config.clientBase) {
+      if (config.clientBase.indexOf("http") === 0) return config.clientBase;
+      return "https://" + config.clientBase;
+    }
+    if (config.clientDomain) return "https://" + config.clientDomain;
+    return "https://bsky.app";
+  }
+
+  function profileUrl(config, handleOrDid) {
+    return clientBase(config) + "/profile/" + handleOrDid;
+  }
+
+  function listUrlFromAtUri(atUri, config) {
+    if (!atUri || atUri.indexOf("at://") !== 0) return null;
+    var m = atUri.match(/^at:\/\/([^/]+)\/app\.bsky\.graph\.list\/([^/]+)$/);
+    if (!m) return null;
+    return clientBase(config) + "/profile/" + m[1] + "/lists/" + m[2];
   }
 
   function renderMemberCard(profile, config) {
@@ -293,7 +326,16 @@
     }
 
     card.appendChild(meta);
-    return card;
+
+    var handle = profile.handle || profile.did;
+    if (!handle) return card;
+    var link = el("a", "atproto-members__card-link", {
+      href: profileUrl(config, handle),
+      target: "_blank",
+      rel: "noopener noreferrer",
+    });
+    link.appendChild(card);
+    return link;
   }
 
   function renderMembers(listData, config, listLink) {
@@ -304,6 +346,11 @@
       return el("div", "atproto-members__empty", {
         textContent: "No members found",
       });
+    }
+    if (items.length === 1) {
+      grid.style.gridTemplateColumns = "1fr";
+    } else if (items.length === 2) {
+      grid.style.gridTemplateColumns = "1fr 1fr";
     }
     items.forEach(function (item) {
       var subject = item.subject || item.profile || item;
@@ -338,7 +385,7 @@
 
     function injectStyles(root) {
     var style = document.createElement("style");
-    style.textContent = ":host{--atproto-columns:3;--atproto-bg:var(--neutral-0,#ffffff);--atproto-border-color:var(--neutral-3,#e9ecef);--atproto-text-color:var(--neutral-10,#101213);--atproto-muted-color:var(--neutral-7,#6a7178);--atproto-accent-color:var(--primary-base,#0a66f4);--atproto-radius:12px;--atproto-font-family:var(--font-sans,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif)}:host(.atproto-members-host){display:block;width:var(--atproto-width,100%);max-width:var(--atproto-max-width,none);font-family:var(--atproto-font-family);color:var(--atproto-text-color)}.atproto-members-inner{width:100%}.atproto-members--loading,.atproto-members--error,.atproto-members__empty{padding:18px;border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);background:var(--atproto-bg);color:var(--atproto-muted-color);text-align:center;font-size:var(--font-body,14px)}.atproto-members__grid{display:grid;grid-template-columns:repeat(var(--atproto-columns,3),minmax(0,1fr));gap:14px}.atproto-members__button-row{display:flex;justify-content:center;margin-top:16px}.atproto-members__button{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease}.atproto-members__button--filled{background:var(--atproto-accent-color);color:#ffffff;border:1px solid var(--atproto-accent-color);box-shadow:0 4px 12px rgba(10,102,244,0.15)}.atproto-members__button--filled:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,102,244,0.25)}.atproto-members__button--outline{background:transparent;color:var(--atproto-text-color);border:1px solid var(--atproto-border-color)}.atproto-members__button--outline:hover{transform:translateY(-1px);background:rgba(0,0,0,0.02);border-color:var(--atproto-muted-color)}.atproto-members__card{display:flex;gap:12px;padding:12px;background:var(--neutral-0);border:2px solid var(--neutral-1);border-radius:12px;align-items:center}.atproto-members__avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0}.atproto-members__meta{display:flex;flex-direction:column;gap:4px;min-width:0}.atproto-members__name-row{display:flex;align-items:center;gap:6px}.atproto-members__name{font-size:var(--font-caption);font-weight:600;color:var(--neutral-11);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__badge{width:14px;height:14px}.atproto-members__handle{font-size:var(--font-caption);color:var(--neutral-8)}.atproto-members__metrics{display:flex;gap:8px;margin-top:2px}.atproto-members__metric{display:flex;align-items:center;gap:4px;font-size:var(--font-tagline,11px);color:var(--atproto-muted-color);white-space:nowrap}@media (max-width:900px){.atproto-members__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.atproto-members__grid{grid-template-columns:1fr}}";
+    style.textContent = ":host{--atproto-columns:3;--atproto-bg:var(--neutral-0,#ffffff);--atproto-border-color:var(--neutral-3,#e9ecef);--atproto-text-color:var(--neutral-10,#101213);--atproto-muted-color:var(--neutral-7,#6a7178);--atproto-accent-color:var(--primary-base,#0a66f4);--atproto-radius:12px;--atproto-font-family:var(--font-sans,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif)}:host(.atproto-members-host){display:block;width:var(--atproto-width,100%);max-width:var(--atproto-max-width,none);font-family:var(--atproto-font-family);color:var(--atproto-text-color)}.atproto-members-inner{width:100%}.atproto-members--loading,.atproto-members--error,.atproto-members__empty{padding:18px;border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);background:var(--atproto-bg);color:var(--atproto-muted-color);text-align:center;font-size:var(--font-body,14px)}.atproto-members__grid{display:grid;grid-template-columns:repeat(var(--atproto-columns,3),minmax(0,1fr));gap:8px}.atproto-members__button-row{display:flex;justify-content:center;margin-top:16px}.atproto-members__button{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:100px;font-size:var(--font-body);font-weight:600;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease}.atproto-members__button--filled{background:var(--primary-base);color:#ffffff;border:1px solid var(--primary-base)}.atproto-members__button--filled:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(10,102,244,0.25)}.atproto-members__button--outline{background:transparent;color:var(--atproto-text-color);border:1px solid var(--atproto-border-color)}.atproto-members__button--outline:hover{transform:translateY(-1px);background:rgba(0,0,0,0.02);border-color:var(--atproto-muted-color)}.atproto-members__card{display:flex;gap:10px;padding:12px;background:var(--neutral-0);border:2px solid var(--neutral-1);border-radius:12px;align-items:flex-start;transition:var(--transition)}.atproto-members__card-link{display:block;text-decoration:none;color:inherit}.atproto-members__card-link:hover .atproto-members__card{border-color:var(--neutral-3);box-shadow:0 6px 16px rgba(0,0,0,0.08);transform:translateY(-1px)}.atproto-members__avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}.atproto-members__meta{display:flex;flex-direction:column;gap:4px;min-width:0}.atproto-members__name-row{display:flex;align-items:center;gap:4px}.atproto-members__name{font-size:var(--font-caption);font-weight:600;color:var(--neutral-11);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__badge{width:14px;height:14px}.atproto-members__handle{font-size:var(--font-caption);color:var(--neutral-8);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__metrics{display:flex;gap:8px;margin-top:2px}.atproto-members__metric{display:flex;align-items:center;gap:4px;font-size:var(--font-tagline);color:var(--neutral-7);white-space:nowrap}@media (max-width:900px){.atproto-members__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.atproto-members__grid{grid-template-columns:1fr}}";
     root.appendChild(style);
   }
 
@@ -354,6 +401,10 @@
     CONTAINER_ABORTS.set(container, controller);
 
     var config = parseConfig(container);
+    if (!config.clientDomain) {
+      var inferred = extractClientDomain(raw);
+      if (inferred) config.clientDomain = inferred;
+    }
     applyLayoutVars(container, config);
 
     container.classList.add("atproto-members-host");
@@ -392,6 +443,7 @@
       var listLink = null;
       if (raw && raw.indexOf("http") === 0) listLink = raw;
       if (!listLink && config.listUrl) listLink = config.listUrl;
+      if (!listLink && listUri) listLink = listUrlFromAtUri(listUri, config);
       wrapper.appendChild(renderMembers(listData, config, listLink));
     } catch (err) {
       if (err && err.name === "AbortError") return;

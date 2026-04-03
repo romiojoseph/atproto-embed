@@ -170,7 +170,7 @@ button {
   background: var(--atproto-bg);
   border: 1px solid var(--neutral-3);
   border-radius: 20px;
-  box-shadow: 0 0 0 2px var(--neutral-1);
+  box-shadow: 0 0 0 3px var(--neutral-1);
   padding: 16px;
   color: var(--atproto-text-color);
 }
