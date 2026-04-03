@@ -130,6 +130,8 @@
       <label><input type="radio" name="demo-tab" value="members">Members</label>
     </div>
 
+    <h2 class="section-title" data-tab-section="post">Post Embed</h2>
+    <P class="section-subtitle" data-tab-section="post">Embed Bluesky posts on your blog or website.</P>
     <div class="controls" data-tab-section="post">
       <select id="selector" title="Post selector for demo">
         <option value="">— Pick a test post —</option>
@@ -207,8 +209,6 @@
       </div>
     </div>
 
-    <h2 class="section-title" data-tab-section="post">Post Embed</h2>
-    <P class="section-subtitle" data-tab-section="post">Embed Bluesky posts on your blog or website.</P>
     <div class="embed-wrap" data-tab-section="post">
       <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
         data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
@@ -228,6 +228,8 @@
       </button>
     </div>
 
+    <h2 class="section-title" data-tab-section="discussion">Discussion Embed</h2>
+    <P class="section-subtitle" data-tab-section="discussion">Turn a Bluesky post into a comment section.</P>
     <div class="controls" data-tab-section="discussion">
       <select id="discussion-selector" title="Post selector for demo">
         <option value="">— Pick a test post —</option>
@@ -313,8 +315,6 @@
       </div>
     </div>
 
-    <h2 class="section-title" data-tab-section="discussion">Discussion Embed</h2>
-    <P class="section-subtitle" data-tab-section="discussion">Turn a Bluesky post into a comment section.</P>
     <div class="embed-wrap" data-tab-section="discussion">
       <div class="atproto-embed" id="discussion-embed"
         data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l" data-mode="discussion"
@@ -419,12 +419,17 @@
           <label><input type="checkbox" data-attr="show-posts" checked> Posts</label>
           <label><input type="checkbox" data-attr="show-followers" checked> Followers</label>
           <label><input type="checkbox" data-attr="show-following" checked> Following</label>
-          <label><input type="checkbox" data-attr="columns"> Two columns</label>
           <label><input type="checkbox" data-attr="show-button" checked> Button</label>
           <label><input type="checkbox" data-attr="button-outline"> Outline</label>
         </div>
 
         <div class="members-inputs">
+          <select data-attr="columns" title="Columns">
+            <option value="4">4 columns</option>
+            <option value="3" selected>3 columns</option>
+            <option value="2">2 columns</option>
+            <option value="1">1 column</option>
+          </select>
           <input type="text" data-attr="button-label" placeholder="Button label (e.g. View more)">
         </div>
 
@@ -450,10 +455,10 @@
       </div>
 
       <div class="embed-wrap">
-        <div class="atproto-members" data-list="https://bsky.app/profile/romiojoseph.github.io/lists/3lnaenknrbt2w"
-          data-width="100%" data-max-width="960px" data-columns="3" data-limit="15" data-show-avatar="true"
-          data-show-display-name="true" data-show-handle="true" data-show-verification="true" data-show-metrics="true"
-          data-show-posts="true" data-show-followers="true" data-show-following="true"></div>
+        <div class="atproto-members" data-list="https://bsky.app/profile/bsky.app/lists/3lvpca43j5z26" data-width="100%"
+          data-max-width="960px" data-columns="3" data-limit="15" data-show-avatar="true" data-show-display-name="true"
+          data-show-handle="true" data-show-verification="true" data-show-metrics="true" data-show-posts="true"
+          data-show-followers="true" data-show-following="true"></div>
         <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -501,6 +506,7 @@
   </div>
 
   <footer class="footer">
+    <h6 class="footer-heading">v1</h6>
     <p class="footer-text">This project exists because I needed it. I was trying to embed a Bluesky post on my blog, but
       the official script wouldn't load it because I had "Logged-out visibility" enabled (Which means Bluesky will
       honor this request, so it won't load it for logged out users). Fair feature, wrong tradeoff for me.</p>
@@ -516,12 +522,38 @@
       full control over what shows and what doesn't. Browsers without native HLS support (like Firefox) automatically
       load hls.js on demand. No
       extra setup required.</p>
+    <h6 class="footer-heading">v2</h6>
+    <p class="footer-text">
+      Added two more widgets. Now you can embed a Bluesky profile with all the basic details or as minimal as you want,
+      and up to hundreds of profiles from a list, again with a control.
+    </p>
+    <div class="file-sizes">
+      <div class="file-size-item">
+        <span class="list-label">Loading Script</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/sample/embed.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Post & Discussion</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/sample/post.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Profile</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/sample/profile.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Members</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/sample/members.js"></span>
+      </div>
+    </div>
+    <h6 class="footer-heading">Disclaimer</h6>
     <p class="footer-text">Entirely vibe coded. Use it via CDN or grab the JS and CSS.
     </p>
     <div>
       <img alt="GitHub License" src="https://img.shields.io/github/license/romiojoseph/atproto-embed">
-      <img alt="GitHub file size in bytes"
-        src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fembed.js">
       <img alt="jsDelivr hits (GitHub)" src="https://img.shields.io/jsdelivr/gh/hm/romiojoseph/atproto-embed">
       <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/romiojoseph/atproto-embed">
       <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/romiojoseph/atproto-embed">

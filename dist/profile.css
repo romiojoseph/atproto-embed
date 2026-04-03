@@ -234,21 +234,20 @@
 }
 
 .atproto-profile__metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
   margin-top: 20px;
 }
 
 .atproto-profile__metric {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   min-width: 80px;
 }
 
 .atproto-profile__metric-count {
-  font-size: var(--font-body);
+  font-size: var(--font-caption);
   font-weight: 600;
   color: var(--atproto-text-color);
 }
@@ -263,7 +262,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .atproto-profile__btn {

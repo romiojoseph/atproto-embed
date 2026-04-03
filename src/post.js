@@ -1863,6 +1863,17 @@
     root.appendChild(link);
   }
 
+  function ensureFontLoaded() {
+    if (typeof document === "undefined") return;
+    if (document.getElementById("atproto-font-google-sans")) return;
+    var link = document.createElement("link");
+    link.id = "atproto-font-google-sans";
+    link.setAttribute("rel", "stylesheet");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap";
+    document.head.appendChild(link);
+  }
+
   /* ───── Init ───── */
 
   async function initContainer(container) {
@@ -1892,6 +1903,7 @@
       shadow.innerHTML = "";
     }
 
+    ensureFontLoaded();
     injectStyles(shadow);
 
     var wrapper = el("div", "atproto-embed-inner");

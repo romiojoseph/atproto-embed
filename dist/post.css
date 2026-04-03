@@ -116,10 +116,12 @@
   max-width: var(--atproto-max-width);
   min-width: 0;
   box-sizing: border-box;
+  margin: 32px auto;
 }
 
+/* keep for backward compatibility (no-op since host already has margin) */
 :host(.atproto-embed-host--post) {
-  margin: 32px 0;
+  margin: 32px auto;
 }
 
 /* ── Layout wrappers ── */

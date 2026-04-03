@@ -331,6 +331,16 @@
       meta.appendChild(metrics);
     }
 
+    if (config.showAvatar !== false) {
+      var onlyAvatar =
+        config.showDisplayName === false &&
+        (config.showHandle === false || !profile.handle) &&
+        config.showMetrics === false;
+      if (onlyAvatar) {
+        card.classList.add("atproto-members__card--avatar-only");
+      }
+    }
+
     card.appendChild(meta);
 
     var handle = profile.handle || profile.did;
@@ -352,6 +362,14 @@
       return el("div", "atproto-members__empty", {
         textContent: "No members found",
       });
+    }
+    var avatarOnly =
+      config.showAvatar !== false &&
+      config.showDisplayName === false &&
+      config.showHandle === false &&
+      config.showMetrics === false;
+    if (avatarOnly) {
+      grid.classList.add("atproto-members__grid--avatar-only");
     }
     if (items.length === 1) {
       grid.style.gridTemplateColumns = "1fr";
@@ -396,6 +414,17 @@
     root.appendChild(link);
   }
 
+  function ensureFontLoaded() {
+    if (typeof document === "undefined") return;
+    if (document.getElementById("atproto-font-google-sans")) return;
+    var link = document.createElement("link");
+    link.id = "atproto-font-google-sans";
+    link.setAttribute("rel", "stylesheet");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap";
+    document.head.appendChild(link);
+  }
+
   /* ───── Init ───── */
 
   async function initContainer(container) {
@@ -423,6 +452,7 @@
       shadow.innerHTML = "";
     }
 
+    ensureFontLoaded();
     injectStyles(shadow);
 
     var wrapper = el("div", "atproto-members-inner");

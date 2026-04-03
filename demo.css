@@ -493,9 +493,6 @@ select:focus {
   margin: 0 0 16px;
 }
 
-.atproto-embed-host--post {
-  margin: 0 !important;
-}
 
 /* Code Popover */
 .popover-overlay {
@@ -882,6 +879,11 @@ select:focus {
   margin: 0 auto 32px;
 }
 
+.footer-heading {
+  font-size: var(--font-heading6);
+  margin: 24px 0 0;
+}
+
 .footer-text {
   font-size: var(--font-body);
   line-height: 1.6;
@@ -900,6 +902,34 @@ select:focus {
   text-decoration: underline;
 }
 
+.file-sizes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px 16px;
+  margin: 16px 0 48px;
+  padding: 24px 0;
+  border-top: 1px dashed var(--neutral-2);
+  border-bottom: 1px dashed var(--neutral-2);
+}
+
+@media (max-width: 540px) {
+  .file-sizes {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 8px;
+  }
+}
+
+.file-size-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.list-label {
+  font-size: var(--font-caption);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
 
 @media (max-width: 768px) {
   .page {
@@ -1212,7 +1242,7 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
 
 .members-inputs {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px 12px;
   margin-top: 16px;
 }
@@ -1234,4 +1264,35 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
 
 .members-inputs input:focus {
   outline: 4px solid var(--neutral-1);
+}
+
+.members-inputs select {
+  padding: 8px 10px;
+  font-size: var(--font-body);
+  border: 2px solid var(--neutral-1);
+  border-radius: 10px;
+  background: var(--neutral-0);
+  color: var(--neutral-11);
+  transition: var(--transition);
+  outline: 2px solid transparent;
+  appearance: none;
+  background-image: var(--demo-icon);
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px 16px;
+}
+
+.members-inputs select:hover {
+  border-color: var(--neutral-3);
+}
+
+.members-inputs select:focus {
+  outline: 4px solid var(--neutral-1);
+  border-color: var(--neutral-4);
+}
+
+@media (max-width: 540px) {
+  .members-inputs {
+    grid-template-columns: 1fr;
+  }
 }
