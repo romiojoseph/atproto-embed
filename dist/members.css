@@ -1,4 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');
+
 :host {
+  /* Neutral palette */
+  --neutral-0: #ffffff;
+  --neutral-1: #f8f9fa;
+  --neutral-2: #f1f3f5;
+  --neutral-3: #e9ecef;
+  --neutral-4: #dee2e6;
+  --neutral-5: #ced4da;
+  --neutral-6: #adb5bd;
+  --neutral-7: #6a7178;
+  --neutral-8: #4f575e;
+  --neutral-9: #272b30;
+  --neutral-10: #101213;
+  --neutral-11: #000000;
+
+  /* Primary */
+  --primary-light: #f8f9ff;
+  --primary-base: #0a66f4;
+  --primary-hover: #20439b;
+  --primary-dark: #1c2855;
+
+  /* Type scale */
+  --font-displayLarge: 45px;
+  --font-displaymedium: 40px;
+  --font-displaySmall: 36px;
+  --font-heading1: 32px;
+  --font-heading2: 28px;
+  --font-heading3: 25px;
+  --font-heading4: 22px;
+  --font-heading5: 20px;
+  --font-heading6: 18px;
+  --font-subtitle: 16px;
+  --font-body: 14px;
+  --font-caption: 12px;
+  --font-label: 11px;
+  --font-tagline: 10px;
+  --font-sans: "Google Sans Flex", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --transition: all 0.32s ease-in-out;
+
   /* Inherit shared variables from root or use standard defaults */
   --atproto-columns: 3;
   --atproto-bg: var(--neutral-0, #ffffff);
@@ -14,6 +54,7 @@
   display: block;
   width: var(--atproto-width, 100%);
   max-width: var(--atproto-max-width, none);
+  margin: 32px auto;
   font-family: var(--atproto-font-family);
   color: var(--atproto-text-color);
 }

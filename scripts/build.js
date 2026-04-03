@@ -112,6 +112,19 @@ function buildRuntime(name) {
   fs.writeFileSync(outJs, js, "utf8");
   fs.writeFileSync(outCss, css, "utf8");
 
+  const output = fs.readFileSync(outJs, "utf8");
+  const hasICONS = output.includes("var ICONS = {");
+  const hasStyleInject = output.includes('document.createElement("style")');
+  const hasNoBasePath = !output.includes("function getBasePath()");
+  const hasNoLinkTag = !output.includes('rel = "stylesheet"');
+  if (!hasICONS || !hasStyleInject || !hasNoBasePath || !hasNoLinkTag) {
+    console.error("✗ WARNING: Build output may be incomplete for " + name + ":");
+    if (!hasICONS) console.error("  - ICONS map not found");
+    if (!hasStyleInject) console.error("  - Style injection not found");
+    if (!hasNoBasePath) console.error("  - getBasePath() was not removed");
+    if (!hasNoLinkTag) console.error("  - <link> stylesheet injection remains");
+  }
+
   const outSize = fs.statSync(outJs).size;
   console.log(`✓ dist/${name}.js written — ${(outSize / 1024).toFixed(1)} KB`);
   console.log(`✓ dist/${name}.css written`);

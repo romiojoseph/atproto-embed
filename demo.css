@@ -113,7 +113,7 @@ body.popover-open {
   width: 100%;
   margin: 0 auto;
   background: linear-gradient(180deg, var(--primary-light) 0%, var(--neutral-0) 70%);
-  padding: 96px 12px 64px;
+  padding: 96px 12px 16px;
 }
 
 .hero-content {
@@ -284,7 +284,7 @@ select:focus {
 }
 
 .options-panel {
-  margin: 24px 0 32px;
+  margin: 24px 0 0;
 }
 
 .slider-controls {
@@ -369,9 +369,9 @@ select:focus {
 .slider-controls .range-value {
   background: var(--primary-base);
   color: var(--neutral-0);
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: var(--font-label);
+  padding: 3px 8px;
+  border-radius: 100px;
+  font-size: var(--font-tagline);
   font-variant-numeric: tabular-nums;
 }
 
@@ -653,7 +653,7 @@ select:focus {
 .code-snippet {
   width: 100%;
   max-width: 800px;
-  margin-top: 24px;
+  margin-top: 40px;
 }
 
 .window {
@@ -662,7 +662,7 @@ select:focus {
   border-radius: 20px;
   overflow: hidden;
   max-width: 100%;
-  margin: 1rem auto;
+  margin: 0 auto;
   text-align: left;
 }
 
@@ -971,6 +971,8 @@ select:focus {
     border-top: 2px solid var(--neutral-9);
   }
 
+
+
 }
 
 .profile-controls {
@@ -1046,8 +1048,8 @@ select:focus {
 .demo-tabs {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 8px;
+  margin-bottom: 32px;
   flex-wrap: wrap;
 }
 
@@ -1055,20 +1057,22 @@ select:focus {
   cursor: pointer;
   padding: 8px 16px;
   background: var(--neutral-1);
-  border-radius: 20px;
+  border-radius: 100px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
+  -webkuser-select: none;
+  -webkit-user-select: none;
   user-select: none;
   transition: var(--transition);
-  border: 2px solid transparent;
-  color: var(--neutral-8);
-  font-size: 14px;
+  border: 2px solid var(--neutral-3);
+  color: var(--neutral-11);
+  font-size: var(--font-caption);
 }
 
 .demo-tabs label:hover {
-  background: var(--neutral-2);
+  background: var(--neutral-3);
 }
 
 .demo-tabs input[type="radio"] {
@@ -1079,6 +1083,11 @@ select:focus {
   background: var(--primary-base);
   color: var(--neutral-0);
   border-color: var(--primary-base);
+}
+
+.demo-tabs label:has(input:checked):hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 /* Tab Sections toggling */
@@ -1109,7 +1118,7 @@ body[data-active-tab="members"] [data-tab-section]:not([data-tab-section~="membe
   display: grid;
   grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 @media (max-width: 720px) {

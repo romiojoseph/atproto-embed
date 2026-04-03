@@ -41,7 +41,7 @@
       var slash = path.lastIndexOf("/");
       var basePath = slash >= 0 ? path.slice(0, slash + 1) : "/";
       return {
-        base: u.origin + basePath,
+        base: (u.origin && u.origin !== "null" ? u.origin : u.protocol + "//") + basePath,
         query: u.search || "",
       };
     } catch (_) {

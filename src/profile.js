@@ -90,13 +90,17 @@
     var input = String(text);
     var out = "";
     var lastIndex = 0;
-    var re = /https?:\/\/[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|@[A-Z0-9._-]+|#[A-Z0-9_]+/gi;
+    var re = /https?:\/\/[^\s<]+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|(?:^|[^@\w.])([A-Z0-9-]+(?:\.[A-Z0-9-]+)+)(?=\/|[^\w.-]|$)|@[A-Z0-9._-]+|#[A-Z0-9_]+/gi;
     var m;
     while ((m = re.exec(input)) !== null) {
       var start = m.index;
-      var match = m[0];
+      var match = m[1] || m[0];
+      var prefix = m[1] ? m[0].slice(0, m[0].length - m[1].length) : "";
       if (start > lastIndex) {
         out += escapeHtml(input.slice(lastIndex, start));
+      }
+      if (prefix) {
+        out += escapeHtml(prefix);
       }
       if (match[0] === "@") {
         var handle = match.slice(1);
@@ -130,10 +134,18 @@
           '">' +
           escapeHtml(match) +
           "</a>";
+      } else if (match.indexOf(".") !== -1) {
+        var urlGuess = "https://" + match;
+        out +=
+          '<a class="atproto-profile__link" href="' +
+          escapeHtml(urlGuess) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(match) +
+          "</a>";
       } else {
         out += escapeHtml(match);
       }
-      lastIndex = start + match.length;
+      lastIndex = start + (m[1] ? m[0].length : match.length);
     }
     if (lastIndex < input.length) {
       out += escapeHtml(input.slice(lastIndex));
