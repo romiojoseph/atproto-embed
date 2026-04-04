@@ -1,6 +1,6 @@
 {
     "name": "atproto-embed",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.",
     "main": "dist/embed.js",
     "files": [
