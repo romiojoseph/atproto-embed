@@ -1,12 +1,15 @@
 {
     "name": "atproto-embed",
     "version": "2.0.0",
-    "description": "Add Bluesky post embeds or a comment section to your blog or website with a single script tag. Works with any AT Protocol client that follows the standard URL pattern.",
+    "description": "Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.",
     "main": "dist/embed.js",
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "node scripts/build.js",
         "release": "node scripts/release.js"
     },
     "author": "romiojoseph",
-    "license": "Apache License 2.0"
+    "license": "Apache-2.0"
 }

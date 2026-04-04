@@ -47,7 +47,7 @@ async function run() {
   }
 
   console.log(`\n📦 Bumping version (${type})...`);
-  
+
   // 3. Build the project first to ensure dist is up to date
   console.log('🏗 Building project...');
   exec('npm run build');
@@ -60,7 +60,10 @@ async function run() {
   console.log('\n📤 Pushing to GitHub (including tags)...');
   exec('git push origin main --tags');
 
-  console.log('\n✅ Release complete! Your CDN links will update shortly.');
+  console.log('\n📦 Publishing to npm...');
+  exec('npm publish --access public');
+
+  console.log('\n✅ Release complete! GitHub and npm are up to date.');
   rl.close();
 }
 

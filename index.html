@@ -52,6 +52,11 @@
           <img src="public/github.svg" alt="GitHub">
         </button>
 
+        <button class="hero-btn btn-npm"
+          onclick="window.open('https://www.npmjs.com/package/atproto-embed', '_blank', 'noopener')">
+          <img src="public/npm.svg" alt="npm">
+        </button>
+
         <button class="hero-btn btn-jsdelivr"
           onclick="window.open('https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed', '_blank', 'noopener')">
           <img src="public/jsdelivr.svg" alt="jsDelivr">
@@ -75,7 +80,7 @@
             </div>
             <div class="tabs">
               <div class="tab active" onclick="switchTab(0)">Script</div>
-              <div class="tab" onclick="switchTab(1)">jsDelivr</div>
+              <div class="tab" onclick="switchTab(1)">CDN</div>
               <div class="tab" onclick="switchTab(2)">GitHub</div>
             </div>
           </div>
@@ -85,7 +90,7 @@
                 embed.</p>
               <div class="hero-code-wrapper">
                 <code id="hero-script-code"
-                  class="code-text"><span class="hl-tag">&lt;script</span> <span class="hl-attr">src</span>=<span class="hl-string">"https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"</span><span class="hl-tag">&gt;&lt;/script&gt;</span></code>
+                  class="code-text"><span class="hl-tag">&lt;script</span> <span class="hl-attr">src</span>=<span class="hl-string">"https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/embed.js"</span><span class="hl-tag">&gt;&lt;/script&gt;</span></code>
               </div>
               <div class="hero-code-footer">
                 <button class="hero-copy-btn" onclick="copyHeroScript()" aria-label="Copy script" title="Copy script">
@@ -102,16 +107,14 @@
               <div class="link-panel">
                 <div class="link-item">
                   <p class="code-note"># CDN link</p>
-                  <a class="link-url code-text"
-                    href="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js" target="_blank"
-                    rel="noopener"><span
-                      class="hl-string">"https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"</span></a>
+                  <a class="link-url code-text" href="https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/embed.js"
+                    target="_blank" rel="noopener"><span
+                      class="hl-string">"https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/embed.js"</span></a>
                 </div>
                 <div class="link-item">
                   <p class="code-note"># Package page</p>
-                  <a class="link-url code-text" href="https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed"
-                    target="_blank" rel="noopener"><span
-                      class="hl-string">"https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed"</span></a>
+                  <a class="link-url code-text" href="https://www.npmjs.com/package/atproto-embed" target="_blank"
+                    rel="noopener"><span class="hl-string">"https://www.npmjs.com/package/atproto-embed"</span></a>
                 </div>
               </div>
             </div>
@@ -574,6 +577,7 @@
     </p>
     <div>
       <img alt="GitHub License" src="https://img.shields.io/github/license/romiojoseph/atproto-embed">
+      <img alt="npm downloads" src="https://img.shields.io/npm/dm/atproto-embed">
       <img alt="jsDelivr hits (GitHub)" src="https://img.shields.io/jsdelivr/gh/hm/romiojoseph/atproto-embed">
       <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/romiojoseph/atproto-embed">
       <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/romiojoseph/atproto-embed">

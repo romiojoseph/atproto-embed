@@ -367,14 +367,14 @@ function updateCodeSnippetLinks() {
   let scriptName = 'embed.js';
 
   // Update Script tab
-  const scriptCode = `<script src="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/${scriptName}"></script>`;
+  const scriptCode = `<script src="https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/${scriptName}"></script>`;
   const highlightedScript = highlightHTML(scriptCode);
   const scriptElem = document.getElementById('hero-script-code');
   scriptElem.innerHTML = highlightedScript;
   scriptElem.dataset.rawHtml = scriptCode;
 
   // Update jsDelivr link
-  const cdnLink = `https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/${scriptName}`;
+  const cdnLink = `https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/${scriptName}`;
   const cdnElem = document.querySelector('#panel-1 .link-url');
   if (cdnElem) {
     cdnElem.href = cdnLink;
@@ -405,7 +405,7 @@ function generateFormattedHTML(embed, scriptName) {
       attrs.push(`${attr.name}="${attr.value}"`);
     }
   }
-  let html = `<div\n  ${attrs.join('\n  ')}\n></div>\n<script src="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/${scriptName}"></script>`;
+  let html = `<div\n  ${attrs.join('\n  ')}\n></div>\n<script src="https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/${scriptName}"></script>`;
   return html;
 }
 
@@ -516,7 +516,7 @@ function fallbackCopyTextToClipboard(text, buttonElem) {
 
 function copyHeroScript() {
   const btn = document.querySelector('.hero-copy-btn');
-  const codeText = '<script src="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"></script>';
+  const codeText = '<script src="https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/embed.js"></script>';
 
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(codeText).then(() => {

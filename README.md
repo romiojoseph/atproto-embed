@@ -17,7 +17,7 @@ Disclaimer: Entirely vibe coded.
 Load the loader:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/romiojoseph/atproto-embed@latest/dist/embed.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/atproto-embed@latest/dist/embed.js"></script>
 ```
 
 ### Post
@@ -196,4 +196,5 @@ npm run release
 ![post.js size](https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fpost.js)
 ![profile.js size](https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fprofile.js)
 ![members.js size](https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fmembers.js)
+[![npm downloads](https://img.shields.io/npm/dm/atproto-embed)](https://www.npmjs.com/package/atproto-embed)
 [![jsDelivr package](https://data.jsdelivr.com/v1/package/gh/romiojoseph/atproto-embed/badge)](https://www.jsdelivr.com/package/gh/romiojoseph/atproto-embed)

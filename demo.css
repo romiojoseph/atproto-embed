@@ -177,6 +177,10 @@ body.popover-open {
   border: 2px solid #f5461a;
 }
 
+.btn-npm {
+  background: linear-gradient(139deg, #c12127, #CB3837);
+}
+
 .btn-github {
   background: linear-gradient(180deg, var(--neutral-8) 0%, var(--neutral-11) 100%);
   border: 2px solid var(--neutral-9);
