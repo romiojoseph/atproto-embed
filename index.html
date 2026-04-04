@@ -4,13 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AT Proto Embed</title>
+  <title>AT Proto Embed - Posts, Comment Section & Profiles</title>
   <meta name="description"
-    content="Paste a Bluesky post link or any link from a client that follows the same URL pattern.">
-  <meta property="og:image" content="assets/social-image.png">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+
+  <link rel="canonical" href="https://romiojoseph.github.io/atproto-embed/">
 
   <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://romiojoseph.github.io/atproto-embed/">
+  <meta property="og:title" content="AT Proto Embed - Posts, Comment Section & Profiles">
+  <meta property="og:description"
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+  <meta property="og:image" content="assets/social-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AT Proto Embed - Posts, Comment Section & Profiles">
+  <meta name="twitter:description"
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+  <meta name="twitter:image" content="assets/social-image.png">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,13 +35,15 @@
   <link rel="stylesheet" href="demo.css">
 </head>
 
-<body>
+<body data-active-tab="post">
 
   <header class="hero">
     <div class="hero-content">
       <h1 class="page-heading">AT Proto Embed</h1>
-      <p class="page-subtitle">Add Bluesky post embeds or a comment section to your blog or website with a single script
-        tag. Works with any AT Protocol client that follows the standard URL pattern.</p>
+      <p class="page-subtitle">Add Bluesky post embeds, profile embeds, or a comment section to your blog or website
+        with a single script tag. You can also embed up to 100 profiles from a list or starter pack. Works with any AT
+        Protocol client
+        that follows the standard URL pattern.</p>
       <aside class="page-note">Public posts are accessible to everyone
         regardless of which client you use or your login status.</aside>
       <div class="hero-btns">
@@ -123,7 +140,16 @@
   </header>
 
   <div class="page">
-    <div class="controls">
+    <div class="demo-tabs">
+      <label><input type="radio" name="demo-tab" value="post" checked>Post</label>
+      <label><input type="radio" name="demo-tab" value="discussion">Discussion</label>
+      <label><input type="radio" name="demo-tab" value="profile">Profile</label>
+      <label><input type="radio" name="demo-tab" value="members">Members</label>
+    </div>
+
+    <h2 class="section-title" data-tab-section="post">Post Embed</h2>
+    <P class="section-subtitle" data-tab-section="post">Embed Bluesky posts on your blog or website.</P>
+    <div class="controls" data-tab-section="post">
       <select id="selector" title="Post selector for demo">
         <option value="">— Pick a test post —</option>
         <optgroup label="Text only posts">
@@ -164,13 +190,111 @@
       <button class="load-btn" onclick="loadFromDropdown()">Load</button>
     </div>
 
-    <div class="manual">
+    <div class="manual" data-tab-section="post">
       <input type="text" id="custom-uri" placeholder="Paste any AT URI or Bluesky URL…">
       <button class="load-btn" onclick="loadCustom()">Load</button>
     </div>
 
-    <div class="options-panel">
-      <div class="options-grid">
+    <div class="options-panel" data-tab-section="post">
+      <div class="options-grid post-options">
+        <label><input type="checkbox" data-attr="show-likes" checked> Likes</label>
+        <label><input type="checkbox" data-attr="show-reposts" checked> Reposts</label>
+        <label><input type="checkbox" data-attr="show-replies" checked> Replies</label>
+        <label><input type="checkbox" data-attr="show-quotes" checked> Quotes</label>
+        <label><input type="checkbox" data-attr="show-bookmarks" checked> Bookmarks</label>
+        <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+        <label><input type="checkbox" data-attr="show-timestamp" checked> Timestamp</label>
+        <label><input type="checkbox" data-attr="show-actions" checked> Actions</label>
+        <label><input type="checkbox" data-attr="show-reply-context" checked> Reply context</label>
+        <label><input type="checkbox" data-attr="show-embeds" checked> Embeds</label>
+        <label><input type="checkbox" data-attr="show-images" checked> Images</label>
+        <label><input type="checkbox" data-attr="show-video" checked> Video</label>
+        <label><input type="checkbox" data-attr="show-external" checked> External</label>
+        <label><input type="checkbox" data-attr="external-layout"> Horizontal</label>
+        <label><input type="checkbox" data-attr="show-quote-posts" checked> Quote posts</label>
+        <label><input type="checkbox" data-attr="show-badges" checked> Badges</label>
+        <label><input type="checkbox" data-attr="show-labels" checked> Labels</label>
+      </div>
+      <div class="slider-controls">
+        <label>
+          <div class="slider-label">
+            <span>Max width</span>
+            <span class="range-value slider-value-pill">728px</span>
+          </div>
+          <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+        </label>
+      </div>
+    </div>
+
+    <div class="embed-wrap" data-tab-section="post">
+      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
+        data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
+        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
+        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
+        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"></div>
+
+      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="lucide lucide-code">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+        Get Code
+      </button>
+    </div>
+
+    <h2 class="section-title" data-tab-section="discussion">Embed Discussion</h2>
+    <P class="section-subtitle" data-tab-section="discussion">Turn a Bluesky post into a comment section.</P>
+    <div class="controls" data-tab-section="discussion">
+      <select id="discussion-selector" title="Post selector for demo">
+        <option value="">— Pick a test post —</option>
+        <optgroup label="Text only posts">
+          <option value="https://bsky.app/profile/atproto.com/post/3mg6cliy3lc26">Bluesky URL</option>
+        </optgroup>
+        <optgroup label="Quote post">
+          <option value="https://bsky.app/profile/iohn.bsky.social/post/3mhgpxlcujs2e">Large</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mgnknuoxp225">Compact</option>
+        </optgroup>
+        <optgroup label="Media">
+          <option value="https://bsky.app/profile/danabra.mov/post/3m324y3slms2n">One Image</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mazty7lcoc27">Two Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lifogne32c25">Three Images</option>
+          <option value="https://bsky.app/profile/pfrazee.com/post/3ktihwn6xye2t">Four Images</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3l3vgf77uco2g">Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3lydt7uwac22f">Horizontal Video</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mehbtjykb22n">Vertical Video</option>
+          <option value="https://bsky.app/profile/wired.com/post/3mgbf377x442u">Trusted Verifier</option>
+          <option value="https://bsky.app/profile/bsky.app/post/3mhgprzgahs2l">External Link</option>
+        </optgroup>
+        <optgroup label="Other Clients">
+          <option value="at://did:plc:ragtjsm2j2vknwkz3zp4oxrd/app.bsky.feed.post/3mhloar4dys2c">
+            AT URI</option>
+          <option value="https://deer.social/profile/did:plc:246lpwo6dt5rdx45fs5v2acv/post/3mhnns3f4b227">Deer Social
+          </option>
+          <option value="https://witchsky.app/profile/did:plc:cwf4mmm7mpzistinx3ox2zhj/post/3mhgpuukaxs2u">Witchsky
+          </option>
+          <option value="https://blacksky.community/profile/did:plc:kta7dqcqoamo5ixlajxbtjps/post/3mgz73rfh5s2q">
+            Blacksky
+          </option>
+        </optgroup>
+        <optgroup label="Other">
+          <option value="https://bsky.app/profile/bsky.app/post/3mg3ybdpo7s2b">bsky.app</option>
+          <option value="https://bsky.app/profile/atproto.com/post/3mhjb5565us2t">atproto.com</option>
+          <option value="https://bsky.app/profile/jay.bsky.team/post/3mhgqgymbds23">jay.bsky.team</option>
+        </optgroup>
+      </select>
+      <button class="load-btn" onclick="loadDiscussionFromDropdown()">Load</button>
+    </div>
+
+    <div class="manual" data-tab-section="discussion">
+      <input type="text" id="discussion-custom-uri" placeholder="Paste any AT URI or Bluesky URL…">
+      <button class="load-btn" onclick="loadDiscussionCustom()">Load</button>
+    </div>
+
+    <div class="options-panel" data-tab-section="discussion">
+      <div class="options-grid discussion-options">
         <label><input type="checkbox" data-attr="show-likes" checked> Likes</label>
         <label><input type="checkbox" data-attr="show-reposts" checked> Reposts</label>
         <label><input type="checkbox" data-attr="show-replies" checked> Replies</label>
@@ -197,37 +321,21 @@
         <label><input type="checkbox" data-attr="show-sort" checked> Sort</label>
         <label><input type="checkbox" data-attr="show-join-button" checked> Write reply</label>
       </div>
+      <div class="slider-controls">
+        <label>
+          <div class="slider-label">
+            <span>Max width</span>
+            <span class="range-value slider-value-pill">728px</span>
+          </div>
+          <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="728">
+        </label>
+      </div>
     </div>
 
-    <h2 class="section-title">Post Embed</h2>
-    <P class="section-subtitle">Embed Bluesky posts on your blog or website.</P>
-    <div class="embed-wrap">
-      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
-        data-mode="post" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
-        data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
-        data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
-        data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
-        data-external-layout="vertical" data-show-badges="true" data-show-labels="true"
-        data-show-reply-quote-labels="true" data-show-main-post="true" data-show-liked-by="true"
-        data-show-replies-tab="true" data-show-quotes-tab="true" data-show-tabs="true" data-show-sort="true"
-        data-show-join-button="true"></div>
-
-      <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-code">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-        </svg>
-        Get Code
-      </button>
-    </div>
-
-    <h2 class="section-title">Discussion Embed</h2>
-    <P class="section-subtitle">Turn a Bluesky post into a comment section.</P>
-    <div class="embed-wrap">
-      <div class="atproto-embed" data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l"
-        data-mode="discussion" data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
+    <div class="embed-wrap" data-tab-section="discussion">
+      <div class="atproto-embed" id="discussion-embed"
+        data-uri="at://did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3mhgprzgahs2l" data-mode="discussion"
+        data-width="100%" data-max-width="728px" data-show-likes="true" data-show-reposts="true"
         data-show-replies="true" data-show-quotes="true" data-show-bookmarks="true" data-show-metrics="true"
         data-show-timestamp="true" data-show-actions="true" data-show-reply-context="true" data-show-embeds="true"
         data-show-images="true" data-show-video="true" data-show-external="true" data-show-quote-posts="true"
@@ -245,6 +353,141 @@
         </svg>
         Get Code
       </button>
+    </div>
+
+    <div class="profile-controls" data-tab-section="profile">
+      <h2 class="section-title">Profile Widget</h2>
+      <P class="section-subtitle">Show a Bluesky profile card with full control.</P>
+      <div class="manual">
+        <input type="text" id="profile-handle" placeholder="Handle or DID (e.g. bsky.app)">
+        <button class="load-btn" onclick="loadProfileFromInput()">Load</button>
+      </div>
+
+      <div class="options-panel">
+        <div class="options-grid profile-options">
+          <label><input type="checkbox" data-attr="show-avatar" checked> Avatar</label>
+          <label><input type="checkbox" data-attr="show-display-name" checked> Name</label>
+          <label><input type="checkbox" data-attr="show-handle" checked> Handle</label>
+          <label><input type="checkbox" data-attr="show-verification" checked> Verification</label>
+          <label><input type="checkbox" data-attr="show-description" checked> Description</label>
+          <label><input type="checkbox" data-attr="show-cover" checked> Cover</label>
+          <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+          <label><input type="checkbox" data-attr="show-followers" checked> Followers</label>
+          <label><input type="checkbox" data-attr="show-following" checked> Following</label>
+          <label><input type="checkbox" data-attr="show-posts" checked> Posts</label>
+          <label><input type="checkbox" data-attr="show-follow" checked> Fill</label>
+          <label><input type="checkbox" data-attr="show-connect" checked> Outline</label>
+        </div>
+
+        <div class="profile-inputs">
+          <select data-attr="client-preset" title="Client">
+            <option value="bsky.app|Bluesky" selected>Bluesky (bsky.app)</option>
+            <option value="blacksky.community|Blacksky">Blacksky</option>
+            <option value="deer.social|Deer Social">Deer Social</option>
+            <option value="witchsky.app|Witchsky">Witchsky</option>
+          </select>
+          <input type="text" data-attr="label-follow" placeholder="Follow label (e.g. Join the party)">
+          <input type="text" data-attr="label-connect" placeholder="Connect label (e.g. Say hi!)">
+        </div>
+        <div class="slider-controls">
+          <label>
+            <div class="slider-label">
+              <span>Max width</span>
+              <span class="range-value slider-value-pill">440px</span>
+            </div>
+            <input type="range" data-attr="max-width" data-unit="px" min="228" max="1200" step="8" value="440">
+          </label>
+        </div>
+      </div>
+
+      <div class="embed-wrap">
+        <div class="atproto-profile" data-profile="bsky.app" data-width="100%" data-max-width="440px" data-size="full"
+          data-show-avatar="true" data-show-display-name="true" data-show-handle="true" data-show-verification="true"
+          data-show-description="true" data-show-cover="true" data-show-metrics="true" data-show-followers="true"
+          data-show-following="true" data-show-posts="true" data-show-follow="true" data-show-connect="true"
+          data-client-name="Bluesky" data-client-domain="bsky.app"></div>
+        <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-code">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Get Code
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-controls" data-tab-section="members">
+      <h2 class="section-title">Members Widget</h2>
+      <P class="section-subtitle">Display members from a list or starter pack as cards.</P>
+      <div class="manual">
+        <input type="text" id="members-list" placeholder="List URL or AT URI">
+        <button class="load-btn" onclick="loadMembersFromInput()">Load</button>
+      </div>
+
+      <div class="options-panel">
+        <div class="options-grid members-options">
+          <label><input type="checkbox" data-attr="show-avatar" checked> Avatar</label>
+          <label><input type="checkbox" data-attr="show-display-name" checked> Display name</label>
+          <label><input type="checkbox" data-attr="show-handle" checked> Handle</label>
+          <label><input type="checkbox" data-attr="show-verification" checked> Verification</label>
+          <label><input type="checkbox" data-attr="show-metrics" checked> Metrics</label>
+          <label><input type="checkbox" data-attr="show-posts" checked> Posts</label>
+          <label><input type="checkbox" data-attr="show-followers" checked> Followers</label>
+          <label><input type="checkbox" data-attr="show-following" checked> Following</label>
+          <label><input type="checkbox" data-attr="show-button" checked> Button</label>
+          <label><input type="checkbox" data-attr="button-outline"> Outline</label>
+        </div>
+
+        <div class="members-inputs">
+          <select data-attr="columns" title="Columns">
+            <option value="4,3,2,1">4,3,2,1</option>
+            <option value="4,3,2">4,3,2</option>
+            <option value="3,2,1" selected>3,2,1</option>
+            <option value="3,2">3,2</option>
+            <option value="2,1">2,1</option>
+            <option value="2">2</option>
+          </select>
+          <input type="text" data-attr="button-label" placeholder="Button label (e.g. View more)">
+        </div>
+
+        <div class="members-sliders-row">
+          <div class="slider-controls">
+            <label>
+              <div class="slider-label">
+                <span>Max width</span>
+                <span class="range-value slider-value-pill">960px</span>
+              </div>
+              <input type="range" data-attr="max-width" data-unit="px" min="320" max="1200" step="8" value="960">
+            </label>
+          </div>
+
+          <div class="members-slider-wrap">
+            <div class="slider-label">
+              <span>Members Limit</span>
+              <span id="members-limit-val" class="slider-value-pill">15</span>
+            </div>
+            <input type="range" data-attr="limit" min="3" max="100" value="15" class="demo-slider">
+          </div>
+        </div>
+      </div>
+
+      <div class="embed-wrap">
+        <div class="atproto-members" data-list="https://bsky.app/profile/bsky.app/lists/3lvpca43j5z26" data-width="100%"
+          data-max-width="960px" data-columns="3" data-limit="15" data-show-avatar="true" data-show-display-name="true"
+          data-show-handle="true" data-show-verification="true" data-show-metrics="true" data-show-posts="true"
+          data-show-followers="true" data-show-following="true"></div>
+        <button class="copy-btn" onclick="openCodePopover(this)" title="View embed snippet">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-code">
+            <polyline points="16 18 22 12 16 6" />
+            <polyline points="8 6 2 12 8 18" />
+          </svg>
+          Get Code
+        </button>
+      </div>
     </div>
   </div>
 
@@ -282,6 +525,7 @@
   </div>
 
   <footer class="footer">
+    <h6 class="footer-heading">v1</h6>
     <p class="footer-text">This project exists because I needed it. I was trying to embed a Bluesky post on my blog, but
       the official script wouldn't load it because I had "Logged-out visibility" enabled (Which means Bluesky will
       honor this request, so it won't load it for logged out users). Fair feature, wrong tradeoff for me.</p>
@@ -297,21 +541,50 @@
       full control over what shows and what doesn't. Browsers without native HLS support (like Firefox) automatically
       load hls.js on demand. No
       extra setup required.</p>
-    <p class="footer-text">Entirely vibe coded. Use it via CDN or grab the JS and CSS.
+    <h6 class="footer-heading">v2</h6>
+    <p class="footer-text">
+      Added two more widgets. Now you can embed a Bluesky profile with all the basic details or as minimal as you want,
+      and up to hundreds of profiles from a list or starter pack.
+    </p>
+    <div class="file-sizes">
+      <div class="file-size-item">
+        <span class="list-label">Loading Script</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fembed.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Post & Discussion</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fpost.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Profile</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fprofile.js"></span>
+      </div>
+      <div class="file-size-item">
+        <span class="list-label">Members</span>
+        <span><img alt="GitHub file size in bytes"
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fmembers.js"></span>
+      </div>
+    </div>
+    <h6 class="footer-heading">Disclaimer</h6>
+    <p class="footer-text">Entirely vibe coded. Use via CDN or self-host the JS and CSS. Pick the latest version or lock
+      to a specific one.
     </p>
     <div>
       <img alt="GitHub License" src="https://img.shields.io/github/license/romiojoseph/atproto-embed">
-      <img alt="GitHub file size in bytes"
-        src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fembed.js">
       <img alt="jsDelivr hits (GitHub)" src="https://img.shields.io/jsdelivr/gh/hm/romiojoseph/atproto-embed">
       <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/romiojoseph/atproto-embed">
       <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/romiojoseph/atproto-embed">
+      <img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/romiojoseph/atproto-embed?include_prereleases">
     </div>
   </footer>
 
   <script src="demo.js"></script>
 
   <script src="src/embed.js" data-preload-icons="true"></script>
+  <script src="src/badges.js"></script>
 </body>
 
 </html>
