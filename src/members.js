@@ -145,18 +145,42 @@
   function parseListInput(raw) {
     if (!raw) return null;
     raw = raw.trim();
-    if (raw.startsWith("at://")) return { atUri: raw };
+    if (raw.startsWith("at://")) {
+      if (raw.indexOf("/app.bsky.graph.starterpack/") !== -1) {
+        return { starterPackAtUri: raw };
+      }
+      return { atUri: raw };
+    }
     var m = raw.match(/https?:\/\/([^/]+)\/profile\/([^/]+)\/lists\/([a-zA-Z0-9]+)/);
-    if (!m) return null;
-    return { handle: m[2], rkey: m[3] };
+    if (m) return { handle: m[2], rkey: m[3] };
+    var sp = raw.match(/https?:\/\/([^/]+)\/profile\/([^/]+)\/starter-pack\/([a-zA-Z0-9]+)/);
+    if (sp) return { starterPackHandle: sp[2], starterPackRkey: sp[3] };
+    var sp2 = raw.match(/https?:\/\/([^/]+)\/starter-pack\/([^/]+)\/([a-zA-Z0-9]+)/);
+    if (sp2) return { starterPackHandle: sp2[2], starterPackRkey: sp2[3], starterPackDomain: sp2[1] };
+    return null;
   }
 
-  async function resolveListUri(raw) {
+  async function resolveListUri(raw, config) {
     var parsed = parseListInput(raw);
     if (!parsed) throw new Error("Invalid list");
-    if (parsed.atUri) return parsed.atUri;
+    if (parsed.atUri) return { listUri: parsed.atUri, starterPackUri: null };
+    if (parsed.starterPackAtUri) return { listUri: null, starterPackUri: parsed.starterPackAtUri };
+    if (parsed.starterPackHandle) {
+      if (config && parsed.starterPackDomain) {
+        config.clientDomain = config.clientDomain || parsed.starterPackDomain;
+      }
+      var spDid = await resolveHandle(parsed.starterPackHandle);
+      return {
+        listUri: null,
+        starterPackUri:
+          "at://" + spDid + "/app.bsky.graph.starterpack/" + parsed.starterPackRkey,
+      };
+    }
     var did = await resolveHandle(parsed.handle);
-    return "at://" + did + "/app.bsky.graph.list/" + parsed.rkey;
+    return {
+      listUri: "at://" + did + "/app.bsky.graph.list/" + parsed.rkey,
+      starterPackUri: null,
+    };
   }
 
   async function fetchList(atUri, limit, signal) {
@@ -166,6 +190,14 @@
       encodeURIComponent(atUri);
     if (limit) url += "&limit=" + encodeURIComponent(String(limit));
     return fetchJsonDedup(url, url, "Failed to fetch list", signal);
+  }
+
+  async function fetchStarterPack(atUri, signal) {
+    var url =
+      API_BASE +
+      "app.bsky.graph.getStarterPack?starterPack=" +
+      encodeURIComponent(atUri);
+    return fetchJsonDedup(url, url, "Failed to fetch starter pack", signal);
   }
 
   /* ───── Config ───── */
@@ -232,7 +264,19 @@
 
   function applyLayoutVars(container, config) {
     if (!config) return;
-    if (config.columns) container.style.setProperty("--atproto-columns", config.columns);
+    if (config.columns) {
+      var parts = String(config.columns).split(",").map(function (p) {
+        return p.trim();
+      }).filter(Boolean);
+      var colsLg = parts[0] || "3";
+      var colsMd = parts[1] || colsLg;
+      var colsSm = parts[2] || colsMd;
+      var colsXs = parts[3] || colsSm;
+      container.style.setProperty("--atproto-columns", colsLg);
+      container.style.setProperty("--atproto-columns-md", colsMd);
+      container.style.setProperty("--atproto-columns-sm", colsSm);
+      container.style.setProperty("--atproto-columns-xs", colsXs);
+    }
     if (config.width) container.style.setProperty("--atproto-width", config.width);
     if (config.maxWidth) container.style.setProperty("--atproto-max-width", config.maxWidth);
   }
@@ -462,8 +506,29 @@
     );
 
     try {
-      var listUri = await resolveListUri(raw);
-      var listData = await fetchList(listUri, config.limit, controller.signal);
+      var listInfo = await resolveListUri(raw, config);
+      var listUri = listInfo.listUri;
+      var starterPackUri = listInfo.starterPackUri;
+      var listData;
+      if (starterPackUri) {
+        var starter = await fetchStarterPack(starterPackUri, controller.signal);
+        var spList = starter && starter.starterPack && starter.starterPack.record && starter.starterPack.record.list;
+        if (!spList) throw new Error("Starter pack missing list");
+        listUri = spList;
+      }
+      listData = await fetchList(listUri, config.limit, controller.signal);
+      if (listData && listData.items && config.limit && config.limit > 0) {
+        var validCount = listData.items.filter(function (item) {
+          return item && (item.subject || item.profile);
+        }).length;
+        if (validCount < config.limit && config.limit < 100) {
+          var extra = config.limit - validCount;
+          var nextLimit = Math.min(100, config.limit + extra);
+          if (nextLimit > config.limit) {
+            listData = await fetchList(listUri, nextLimit, controller.signal);
+          }
+        }
+      }
       if (config.showMetrics !== false) {
         var items = (listData && listData.items) || [];
         var enrich = items.map(function (item) {

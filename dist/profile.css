@@ -218,7 +218,7 @@
 }
 
 .atproto-profile__paragraph:not(:last-child) {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .atproto-profile__link {
@@ -237,7 +237,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px 24px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .atproto-profile__metric {
@@ -279,9 +279,7 @@
   white-space: nowrap;
 }
 
-.atproto-profile__btn:hover {
-  transform: translateY(-1px);
-}
+.atproto-profile__btn:hover {}
 
 .atproto-profile__btn--primary {
   background: var(--primary-base);
@@ -312,11 +310,6 @@
 
   .atproto-profile__header {
     align-items: flex-start;
-  }
-
-  .atproto-profile__avatar-wrap {
-    width: 64px;
-    height: 64px;
   }
 
   .atproto-profile__body {

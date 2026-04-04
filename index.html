@@ -4,13 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AT Proto Embed</title>
+  <title>AT Proto Embed - Posts, Comment Section & Profiles</title>
   <meta name="description"
-    content="Paste a Bluesky post link or any link from a client that follows the same URL pattern.">
-  <meta property="og:image" content="assets/social-image.png">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+
+  <link rel="canonical" href="https://romiojoseph.github.io/atproto-embed/">
 
   <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://romiojoseph.github.io/atproto-embed/">
+  <meta property="og:title" content="AT Proto Embed - Posts, Comment Section & Profiles">
+  <meta property="og:description"
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+  <meta property="og:image" content="assets/social-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AT Proto Embed - Posts, Comment Section & Profiles">
+  <meta name="twitter:description"
+    content="Embed Bluesky posts, profiles, or a comment section with a single script tag. Supports up to 100 profiles from a list or starter pack.">
+  <meta name="twitter:image" content="assets/social-image.png">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,8 +40,10 @@
   <header class="hero">
     <div class="hero-content">
       <h1 class="page-heading">AT Proto Embed</h1>
-      <p class="page-subtitle">Add Bluesky post embeds or a comment section to your blog or website with a single script
-        tag. Works with any AT Protocol client that follows the standard URL pattern.</p>
+      <p class="page-subtitle">Add Bluesky post embeds, profile embeds, or a comment section to your blog or website
+        with a single script tag. You can also embed up to 100 profiles from a list or starter pack. Works with any AT
+        Protocol client
+        that follows the standard URL pattern.</p>
       <aside class="page-note">Public posts are accessible to everyone
         regardless of which client you use or your login status.</aside>
       <div class="hero-btns">
@@ -228,7 +245,7 @@
       </button>
     </div>
 
-    <h2 class="section-title" data-tab-section="discussion">Discussion Embed</h2>
+    <h2 class="section-title" data-tab-section="discussion">Embed Discussion</h2>
     <P class="section-subtitle" data-tab-section="discussion">Turn a Bluesky post into a comment section.</P>
     <div class="controls" data-tab-section="discussion">
       <select id="discussion-selector" title="Post selector for demo">
@@ -384,7 +401,7 @@
       </div>
 
       <div class="embed-wrap">
-        <div class="atproto-profile" data-profile="wired.com" data-width="100%" data-max-width="440px" data-size="full"
+        <div class="atproto-profile" data-profile="bsky.app" data-width="100%" data-max-width="440px" data-size="full"
           data-show-avatar="true" data-show-display-name="true" data-show-handle="true" data-show-verification="true"
           data-show-description="true" data-show-cover="true" data-show-metrics="true" data-show-followers="true"
           data-show-following="true" data-show-posts="true" data-show-follow="true" data-show-connect="true"
@@ -403,7 +420,7 @@
 
     <div class="profile-controls" data-tab-section="members">
       <h2 class="section-title">Members Widget</h2>
-      <P class="section-subtitle">Display members from any ATProto list as cards.</P>
+      <P class="section-subtitle">Display members from a list or starter pack as cards.</P>
       <div class="manual">
         <input type="text" id="members-list" placeholder="List URL or AT URI">
         <button class="load-btn" onclick="loadMembersFromInput()">Load</button>
@@ -425,10 +442,12 @@
 
         <div class="members-inputs">
           <select data-attr="columns" title="Columns">
-            <option value="4">4 columns</option>
-            <option value="3" selected>3 columns</option>
-            <option value="2">2 columns</option>
-            <option value="1">1 column</option>
+            <option value="4,3,2,1">4,3,2,1</option>
+            <option value="4,3,2">4,3,2</option>
+            <option value="3,2,1" selected>3,2,1</option>
+            <option value="3,2">3,2</option>
+            <option value="2,1">2,1</option>
+            <option value="2">2</option>
           </select>
           <input type="text" data-attr="button-label" placeholder="Button label (e.g. View more)">
         </div>
@@ -525,38 +544,40 @@
     <h6 class="footer-heading">v2</h6>
     <p class="footer-text">
       Added two more widgets. Now you can embed a Bluesky profile with all the basic details or as minimal as you want,
-      and up to hundreds of profiles from a list, again with a control.
+      and up to hundreds of profiles from a list or starter pack.
     </p>
     <div class="file-sizes">
       <div class="file-size-item">
         <span class="list-label">Loading Script</span>
         <span><img alt="GitHub file size in bytes"
-            src="https://img.shields.io/github/size/romiojoseph/sample/embed.js"></span>
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fembed.js"></span>
       </div>
       <div class="file-size-item">
         <span class="list-label">Post & Discussion</span>
         <span><img alt="GitHub file size in bytes"
-            src="https://img.shields.io/github/size/romiojoseph/sample/post.js"></span>
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fpost.js"></span>
       </div>
       <div class="file-size-item">
         <span class="list-label">Profile</span>
         <span><img alt="GitHub file size in bytes"
-            src="https://img.shields.io/github/size/romiojoseph/sample/profile.js"></span>
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fprofile.js"></span>
       </div>
       <div class="file-size-item">
         <span class="list-label">Members</span>
         <span><img alt="GitHub file size in bytes"
-            src="https://img.shields.io/github/size/romiojoseph/sample/members.js"></span>
+            src="https://img.shields.io/github/size/romiojoseph/atproto-embed/dist%2Fmembers.js"></span>
       </div>
     </div>
     <h6 class="footer-heading">Disclaimer</h6>
-    <p class="footer-text">Entirely vibe coded. Use it via CDN or grab the JS and CSS.
+    <p class="footer-text">Entirely vibe coded. Use via CDN or self-host the JS and CSS. Pick the latest version or lock
+      to a specific one.
     </p>
     <div>
       <img alt="GitHub License" src="https://img.shields.io/github/license/romiojoseph/atproto-embed">
       <img alt="jsDelivr hits (GitHub)" src="https://img.shields.io/jsdelivr/gh/hm/romiojoseph/atproto-embed">
       <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/romiojoseph/atproto-embed">
       <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/romiojoseph/atproto-embed">
+      <img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/romiojoseph/atproto-embed?include_prereleases">
     </div>
   </footer>
 

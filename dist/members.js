@@ -139,18 +139,42 @@
   function parseListInput(raw) {
     if (!raw) return null;
     raw = raw.trim();
-    if (raw.startsWith("at://")) return { atUri: raw };
+    if (raw.startsWith("at://")) {
+      if (raw.indexOf("/app.bsky.graph.starterpack/") !== -1) {
+        return { starterPackAtUri: raw };
+      }
+      return { atUri: raw };
+    }
     var m = raw.match(/https?:\/\/([^/]+)\/profile\/([^/]+)\/lists\/([a-zA-Z0-9]+)/);
-    if (!m) return null;
-    return { handle: m[2], rkey: m[3] };
+    if (m) return { handle: m[2], rkey: m[3] };
+    var sp = raw.match(/https?:\/\/([^/]+)\/profile\/([^/]+)\/starter-pack\/([a-zA-Z0-9]+)/);
+    if (sp) return { starterPackHandle: sp[2], starterPackRkey: sp[3] };
+    var sp2 = raw.match(/https?:\/\/([^/]+)\/starter-pack\/([^/]+)\/([a-zA-Z0-9]+)/);
+    if (sp2) return { starterPackHandle: sp2[2], starterPackRkey: sp2[3], starterPackDomain: sp2[1] };
+    return null;
   }
 
-  async function resolveListUri(raw) {
+  async function resolveListUri(raw, config) {
     var parsed = parseListInput(raw);
     if (!parsed) throw new Error("Invalid list");
-    if (parsed.atUri) return parsed.atUri;
+    if (parsed.atUri) return { listUri: parsed.atUri, starterPackUri: null };
+    if (parsed.starterPackAtUri) return { listUri: null, starterPackUri: parsed.starterPackAtUri };
+    if (parsed.starterPackHandle) {
+      if (config && parsed.starterPackDomain) {
+        config.clientDomain = config.clientDomain || parsed.starterPackDomain;
+      }
+      var spDid = await resolveHandle(parsed.starterPackHandle);
+      return {
+        listUri: null,
+        starterPackUri:
+          "at://" + spDid + "/app.bsky.graph.starterpack/" + parsed.starterPackRkey,
+      };
+    }
     var did = await resolveHandle(parsed.handle);
-    return "at://" + did + "/app.bsky.graph.list/" + parsed.rkey;
+    return {
+      listUri: "at://" + did + "/app.bsky.graph.list/" + parsed.rkey,
+      starterPackUri: null,
+    };
   }
 
   async function fetchList(atUri, limit, signal) {
@@ -160,6 +184,14 @@
       encodeURIComponent(atUri);
     if (limit) url += "&limit=" + encodeURIComponent(String(limit));
     return fetchJsonDedup(url, url, "Failed to fetch list", signal);
+  }
+
+  async function fetchStarterPack(atUri, signal) {
+    var url =
+      API_BASE +
+      "app.bsky.graph.getStarterPack?starterPack=" +
+      encodeURIComponent(atUri);
+    return fetchJsonDedup(url, url, "Failed to fetch starter pack", signal);
   }
 
   /* ───── Config ───── */
@@ -226,7 +258,19 @@
 
   function applyLayoutVars(container, config) {
     if (!config) return;
-    if (config.columns) container.style.setProperty("--atproto-columns", config.columns);
+    if (config.columns) {
+      var parts = String(config.columns).split(",").map(function (p) {
+        return p.trim();
+      }).filter(Boolean);
+      var colsLg = parts[0] || "3";
+      var colsMd = parts[1] || colsLg;
+      var colsSm = parts[2] || colsMd;
+      var colsXs = parts[3] || colsSm;
+      container.style.setProperty("--atproto-columns", colsLg);
+      container.style.setProperty("--atproto-columns-md", colsMd);
+      container.style.setProperty("--atproto-columns-sm", colsSm);
+      container.style.setProperty("--atproto-columns-xs", colsXs);
+    }
     if (config.width) container.style.setProperty("--atproto-width", config.width);
     if (config.maxWidth) container.style.setProperty("--atproto-max-width", config.maxWidth);
   }
@@ -403,7 +447,7 @@
 
     function injectStyles(root) {
     var style = document.createElement("style");
-    style.textContent = "@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');:host{--neutral-0:#ffffff;--neutral-1:#f8f9fa;--neutral-2:#f1f3f5;--neutral-3:#e9ecef;--neutral-4:#dee2e6;--neutral-5:#ced4da;--neutral-6:#adb5bd;--neutral-7:#6a7178;--neutral-8:#4f575e;--neutral-9:#272b30;--neutral-10:#101213;--neutral-11:#000000;--primary-light:#f8f9ff;--primary-base:#0a66f4;--primary-hover:#20439b;--primary-dark:#1c2855;--font-displayLarge:45px;--font-displaymedium:40px;--font-displaySmall:36px;--font-heading1:32px;--font-heading2:28px;--font-heading3:25px;--font-heading4:22px;--font-heading5:20px;--font-heading6:18px;--font-subtitle:16px;--font-body:14px;--font-caption:12px;--font-label:11px;--font-tagline:10px;--font-sans:\"Google Sans Flex\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;--transition:all 0.32s ease-in-out;--atproto-columns:3;--atproto-bg:var(--neutral-0,#ffffff);--atproto-border-color:var(--neutral-3,#e9ecef);--atproto-text-color:var(--neutral-10,#101213);--atproto-muted-color:var(--neutral-7,#6a7178);--atproto-accent-color:var(--primary-base,#0a66f4);--atproto-radius:12px;--atproto-font-family:var(--font-sans,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif)}:host(.atproto-members-host){display:block;width:var(--atproto-width,100%);max-width:var(--atproto-max-width,none);margin:32px auto;font-family:var(--atproto-font-family);color:var(--atproto-text-color)}.atproto-members-inner{width:100%}.atproto-members--loading,.atproto-members--error,.atproto-members__empty{padding:18px;border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);background:var(--atproto-bg);color:var(--atproto-muted-color);text-align:center;font-size:var(--font-body,14px)}.atproto-members__grid{display:grid;grid-template-columns:repeat(var(--atproto-columns,3),minmax(0,1fr));gap:8px}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr)) !important;justify-items:center}@media (max-width:900px){.atproto-members__grid{grid-template-columns:repeat(min(var(--atproto-columns,3),2),minmax(0,1fr))}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr))}}@media (max-width:560px){.atproto-members__grid{grid-template-columns:1fr}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr))}}.atproto-members__button-row{display:flex;justify-content:center;margin-top:24px}.atproto-members__button{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;border-radius:100px;font-size:var(--font-body);font-weight:600;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease}.atproto-members__button--filled{background:var(--primary-base);color:#ffffff;border:1px solid var(--primary-base)}.atproto-members__button--filled:hover{background:var(--primary-hover)}.atproto-members__button--outline{background:transparent;color:var(--atproto-text-color);border:1px solid var(--atproto-border-color)}.atproto-members__button--outline:hover{transform:translateY(-1px);background:rgba(0,0,0,0.02);border-color:var(--atproto-muted-color)}.atproto-members__card{display:flex;gap:10px;padding:12px;background:var(--neutral-0);border:2px solid var(--neutral-1);border-radius:12px;align-items:flex-start;transition:var(--transition)}.atproto-members__card--avatar-only{justify-content:center;align-items:center;padding:4px;border-radius:50%;width:46px;height:46px;gap:0;box-sizing:border-box}.atproto-members__card--avatar-only .atproto-members__meta{display:none}.atproto-members__card-link{display:block;text-decoration:none;color:inherit}.atproto-members__card-link:hover .atproto-members__card{border-color:var(--neutral-3);box-shadow:0 6px 16px rgba(0,0,0,0.08);transform:translateY(-1px)}.atproto-members__avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}.atproto-members__meta{display:flex;flex-direction:column;gap:4px;min-width:0}.atproto-members__name-row{display:flex;align-items:center;gap:4px}.atproto-members__name{font-size:var(--font-caption);font-weight:600;color:var(--neutral-11);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__badge{width:14px;height:14px}.atproto-members__handle{font-size:var(--font-caption);color:var(--neutral-8);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__metrics{display:flex;gap:8px;margin-top:2px}.atproto-members__metric{display:flex;align-items:center;gap:4px;font-size:var(--font-tagline);color:var(--neutral-7);white-space:nowrap}@media (max-width:900px){.atproto-members__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:600px){.atproto-members__grid{grid-template-columns:1fr}}";
+    style.textContent = "@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap');:host{--neutral-0:#ffffff;--neutral-1:#f8f9fa;--neutral-2:#f1f3f5;--neutral-3:#e9ecef;--neutral-4:#dee2e6;--neutral-5:#ced4da;--neutral-6:#adb5bd;--neutral-7:#6a7178;--neutral-8:#4f575e;--neutral-9:#272b30;--neutral-10:#101213;--neutral-11:#000000;--primary-light:#f8f9ff;--primary-base:#0a66f4;--primary-hover:#20439b;--primary-dark:#1c2855;--font-displayLarge:45px;--font-displaymedium:40px;--font-displaySmall:36px;--font-heading1:32px;--font-heading2:28px;--font-heading3:25px;--font-heading4:22px;--font-heading5:20px;--font-heading6:18px;--font-subtitle:16px;--font-body:14px;--font-caption:12px;--font-label:11px;--font-tagline:10px;--font-sans:\"Google Sans Flex\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;--transition:all 0.32s ease-in-out;--atproto-columns:3;--atproto-bg:var(--neutral-0,#ffffff);--atproto-border-color:var(--neutral-3,#e9ecef);--atproto-text-color:var(--neutral-10,#101213);--atproto-muted-color:var(--neutral-7,#6a7178);--atproto-accent-color:var(--primary-base,#0a66f4);--atproto-radius:12px;--atproto-font-family:var(--font-sans,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif)}:host(.atproto-members-host){display:block;width:var(--atproto-width,100%);max-width:var(--atproto-max-width,none);margin:32px auto;font-family:var(--atproto-font-family);color:var(--atproto-text-color)}.atproto-members-inner{width:100%}.atproto-members--loading,.atproto-members--error,.atproto-members__empty{padding:18px;border:1px solid var(--atproto-border-color);border-radius:var(--atproto-radius);background:var(--atproto-bg);color:var(--atproto-muted-color);text-align:center;font-size:var(--font-body,14px)}.atproto-members__grid{display:grid;grid-template-columns:repeat(var(--atproto-columns,3),minmax(0,1fr));gap:8px}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr)) !important;justify-items:center}@media (max-width:1024px){.atproto-members__grid{grid-template-columns:repeat(var(--atproto-columns-md,var(--atproto-columns,3)),minmax(0,1fr))}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr))}}@media (max-width:768px){.atproto-members__grid{grid-template-columns:repeat(var(--atproto-columns-sm,var(--atproto-columns-md,var(--atproto-columns,3))),minmax(0,1fr))}.atproto-members__grid--avatar-only{grid-template-columns:repeat(auto-fit,minmax(46px,1fr))}}.atproto-members__button-row{display:flex;justify-content:center;margin-top:24px}.atproto-members__button{display:inline-flex;align-items:center;justify-content:center;padding:8px 20px;border-radius:100px;font-size:var(--font-body);font-weight:600;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease}.atproto-members__button--filled{background:var(--primary-base);color:#ffffff;border:1px solid var(--primary-base)}.atproto-members__button--filled:hover{background:var(--primary-hover)}.atproto-members__button--outline{background:transparent;color:var(--neutral-11);border:2px solid var(--neutral-1)}.atproto-members__button--outline:hover{background:var(--neutral-3);border-color:var(--neutral-3)}.atproto-members__card{display:flex;gap:10px;padding:12px;background:var(--neutral-0);border:2px solid var(--neutral-1);border-radius:12px;align-items:flex-start;transition:var(--transition)}.atproto-members__card--avatar-only{justify-content:center;align-items:center;padding:4px;border-radius:50%;width:46px;height:46px;gap:0;box-sizing:border-box}.atproto-members__card--avatar-only .atproto-members__meta{display:none}.atproto-members__card-link{display:block;text-decoration:none;color:inherit}.atproto-members__card-link:hover .atproto-members__card{border-color:var(--neutral-3);box-shadow:0 6px 16px rgba(0,0,0,0.08);transform:translateY(-1px)}.atproto-members__avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}.atproto-members__meta{display:flex;flex-direction:column;gap:4px;min-width:0}.atproto-members__name-row{display:flex;align-items:center;gap:4px}.atproto-members__name{font-size:var(--font-caption);font-weight:600;color:var(--neutral-11);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__badge{width:14px;height:14px}.atproto-members__handle{font-size:var(--font-caption);color:var(--neutral-8);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atproto-members__metrics{display:flex;gap:8px;margin-top:2px}.atproto-members__metric{display:flex;align-items:center;gap:4px;font-size:var(--font-tagline);color:var(--neutral-7);white-space:nowrap}@media (max-width:480px){.atproto-members__grid{grid-template-columns:repeat(var(--atproto-columns-xs,var(--atproto-columns-sm,var(--atproto-columns,3))),minmax(0,1fr))}}";
     root.appendChild(style);
   }
 
@@ -455,8 +499,29 @@
     );
 
     try {
-      var listUri = await resolveListUri(raw);
-      var listData = await fetchList(listUri, config.limit, controller.signal);
+      var listInfo = await resolveListUri(raw, config);
+      var listUri = listInfo.listUri;
+      var starterPackUri = listInfo.starterPackUri;
+      var listData;
+      if (starterPackUri) {
+        var starter = await fetchStarterPack(starterPackUri, controller.signal);
+        var spList = starter && starter.starterPack && starter.starterPack.record && starter.starterPack.record.list;
+        if (!spList) throw new Error("Starter pack missing list");
+        listUri = spList;
+      }
+      listData = await fetchList(listUri, config.limit, controller.signal);
+      if (listData && listData.items && config.limit && config.limit > 0) {
+        var validCount = listData.items.filter(function (item) {
+          return item && (item.subject || item.profile);
+        }).length;
+        if (validCount < config.limit && config.limit < 100) {
+          var extra = config.limit - validCount;
+          var nextLimit = Math.min(100, config.limit + extra);
+          if (nextLimit > config.limit) {
+            listData = await fetchList(listUri, nextLimit, controller.signal);
+          }
+        }
+      }
       if (config.showMetrics !== false) {
         var items = (listData && listData.items) || [];
         var enrich = items.map(function (item) {

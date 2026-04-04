@@ -133,9 +133,10 @@ body.popover-open {
 
 .page-subtitle {
   font-size: var(--font-heading5);
-  line-height: 1.35;
-  color: var(--neutral-8);
+  line-height: 1.4;
+  color: var(--neutral-7);
   margin: 0 0 12px;
+  max-width: 800px;
 }
 
 .page-note {
@@ -482,7 +483,7 @@ select:focus {
 }
 
 .section-title {
-  font-size: var(--font-heading6);
+  font-size: var(--font-heading5);
   margin: 16px 0 4px;
   font-weight: 600;
 }
@@ -934,21 +935,32 @@ select:focus {
 @media (max-width: 768px) {
   .page {
     padding: 0 12px;
+    margin: 0 auto 32px;
+  }
+
+  .hero-content {
+    align-items: flex-start;
+    text-align: left;
   }
 
   .hero {
-    padding: 64px 12px 32px;
+    padding: 12px 12px 32px;
   }
 
   .page-heading {
-    font-size: var(--font-heading2);
+    font-size: var(--font-heading3);
     margin: 0 0 4px;
   }
 
   .page-subtitle {
-    font-size: var(--font-subtitle);
-    line-height: 1.4;
+    font-size: var(--font-body);
+    color: var(--neutral-8);
+    line-height: 1.5;
     margin: 0 0 8px;
+  }
+
+  .page-note {
+    font-size: var(--font-label);
   }
 
   .hero-btn img {
@@ -958,12 +970,16 @@ select:focus {
   .feature-list {
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 12px;
     list-style: none;
     padding: 0;
-    margin: 48px 0 12px;
+    margin: 24px 0 12px;
+  }
+
+  .code-snippet {
+    margin-top: 32px;
   }
 
   .window {
@@ -975,7 +991,7 @@ select:focus {
   }
 
   .footer {
-    margin: 0 12px 32px;
+    margin: 0 12px 64px;
   }
 
 }
@@ -1077,32 +1093,47 @@ select:focus {
 /* Demo Tab Navigation */
 .demo-tabs {
   display: flex;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 2px;
   margin-bottom: 32px;
-  flex-wrap: wrap;
+  background-color: var(--neutral-0);
+  border: 3px solid var(--neutral-1);
+  padding: 2px;
+  border-radius: 100px;
+  position: sticky;
+  top: 12px;
+  z-index: 100;
 }
 
 .demo-tabs label {
   cursor: pointer;
-  padding: 8px 16px;
-  background: var(--neutral-1);
+  padding: 10px 16px;
+  background: var(--neutral-0);
   border-radius: 100px;
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   -webkuser-select: none;
   -webkit-user-select: none;
   user-select: none;
   transition: var(--transition);
-  border: 2px solid var(--neutral-3);
+  border: none;
   color: var(--neutral-11);
-  font-size: var(--font-caption);
+  font-size: var(--font-body);
+  width: 100%;
 }
 
-.demo-tabs label:hover {
-  background: var(--neutral-3);
+@media (hover: hover) {
+  .demo-tabs label:hover {
+    background: var(--neutral-3);
+  }
+
+  .demo-tabs label:has(input:checked):hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+  }
 }
 
 .demo-tabs input[type="radio"] {
@@ -1115,10 +1146,7 @@ select:focus {
   border-color: var(--primary-base);
 }
 
-.demo-tabs label:has(input:checked):hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-}
+
 
 /* Tab Sections toggling */
 body[data-active-tab="post"] [data-tab-section]:not([data-tab-section~="post"]) {
