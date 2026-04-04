@@ -279,6 +279,7 @@
     }
     if (config.width) container.style.setProperty("--atproto-width", config.width);
     if (config.maxWidth) container.style.setProperty("--atproto-max-width", config.maxWidth);
+    if (!container.style.margin) container.style.margin = "32px auto";
   }
 
   function extractClientDomain(raw) {

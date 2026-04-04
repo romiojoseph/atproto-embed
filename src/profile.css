@@ -247,13 +247,13 @@
 }
 
 .atproto-profile__metric-count {
-  font-size: var(--font-caption);
+  font-size: var(--font-body);
   font-weight: 600;
   color: var(--atproto-text-color);
 }
 
 .atproto-profile__metric-label {
-  font-size: var(--font-caption);
+  font-size: var(--font-body);
   color: var(--neutral-8);
 }
 
@@ -272,7 +272,8 @@
   justify-content: center;
   padding: 10px 16px;
   border-radius: 100px;
-  font-size: var(--font-body, 14px);
+  font-size: var(--font-body);
+  line-height: 1;
   font-weight: 600;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;

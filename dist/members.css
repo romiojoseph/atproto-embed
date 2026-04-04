@@ -61,6 +61,12 @@
 
 .atproto-members-inner {
   width: 100%;
+  padding: 16px;
+  background: var(--atproto-bg);
+  border: 1px solid var(--neutral-3);
+  border-radius: 20px;
+  box-shadow: 0 0 0 3px var(--neutral-1);
+  box-sizing: border-box;
 }
 
 .atproto-members--loading,
@@ -109,7 +115,7 @@
 .atproto-members__button-row {
   display: flex;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .atproto-members__button {
@@ -135,7 +141,7 @@
 }
 
 .atproto-members__button--outline {
-  background: transparent;
+  background: var(--neutral-0);
   color: var(--neutral-11);
   border: 2px solid var(--neutral-1);
 }
